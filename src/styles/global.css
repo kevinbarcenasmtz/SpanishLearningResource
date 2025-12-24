@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* system font stack for better performance  */
+  body {
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      Roboto,
+      'Helvetica Neue',
+      Arial,
+      sans-serif;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.emerald.500');
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* custom scrollbar for webkit browsers */
+  .sidebar-panel::-webkit-scrollbar {
+    width: 8px;
+  }
+  .sidebar-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .sidebar-panel::-webkit-scrollbar-thumb {
+    background: theme('colors.zinc.300');
+    border-radius: 4px;
+  }
+
+  .dark .sidebar-panel::-webkit-scrollbar-thumb {
+    background: theme('colors.zinc.700');
+  }
+
+  .sidebar-panel::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.zinc.400');
+  }
+
+  .dark .sidebar-panel::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.zinc.600');
+  }
+}
