@@ -1,0 +1,357 @@
+---
+/**
+ * LessonLayout.astro
+ *
+ * Layout for lesson pages with:
+ * - Vocabulary cards section
+ * - Optional grammar topics tags
+ * - Previous/Next lesson navigation
+ * - Table of Contents integration
+ * - Heading extraction for ToC
+ */
+
+ import BaseLayout from './BaseLayout.astro';
+import RightSidebar from '../components/RightSidebar.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface VocabularyItem {
+  spanish?: string;
+  ipa?: string;
+  english?: string;
+  notes?: string;
+}
+
+interface LessonLink {
+  slug: string;
+  title: string;
+}
+
+interface Props {
+  /** Lesson title */
+  title: string;
+  /** Lesson description */
+  description?: string;
+  /** Section name (Foundation, Intermediate, Advanced) */
+  section: string;
+  /** Headings extracted from content for ToC */
+  headings?: Heading[];
+  /** Vocabulary items from frontmatter */
+  vocabulary?: VocabularyItem[];
+  /** Grammar topics tags (optional) */
+  grammarTopics?: string[];
+  /** Previous lesson link */
+  previousLesson?: LessonLink | null;
+  /** Next lesson link */
+  nextLesson?: LessonLink | null;
+}
+
+const {
+  title,
+  description,
+  section,
+  headings = [],
+  vocabulary = [],
+  grammarTopics = [],
+  previousLesson = null,
+  nextLesson = null,
+} = Astro.props;
+
+const hasVocabulary = vocabulary.length > 0;
+const hasGrammarTopics = grammarTopics.length > 0;
+
+// Build ToC headings - include lesson title and vocabulary section
+const tocHeadings: Heading[] = [
+  { depth: 1, slug: 'lesson-title', text: title },
+  ...(hasVocabulary ? [{ depth: 2, slug: 'vocabulary', text: 'Vocabulary' }] : []),
+  ...headings,
+];
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Right Sidebar: Table of Contents -->
+  <Fragment slot="right-sidebar">
+    <RightSidebar headings={tocHeadings} />
+  </Fragment>
+
+  <!-- Mobile ToC -->
+  <Fragment slot="mobile-toc">
+    <RightSidebar headings={tocHeadings} title="On this page" />
+  </Fragment>
+
+  <!-- Main Content -->
+  <article class="prose lesson-content">
+    <!-- Lesson Header -->
+    <header class="lesson-header">
+      <span class="lesson-section-badge">{section}</span>
+      <h1 id="lesson-title">{title}</h1>
+      {description && <p class="lesson-description">{description}</p>}
+    </header>
+
+    <!-- Vocabulary Cards -->
+    {hasVocabulary && (
+      <section class="vocab-section" aria-labelledby="vocabulary">
+        <h2 id="vocabulary">Vocabulary</h2>
+        <div class="vocab-grid">
+          {vocabulary.map((word) => (
+            <div class="vocab-card">
+              {word.spanish && <p class="spanish">{word.spanish}</p>}
+              {word.ipa && <span class="ipa">{word.ipa}</span>}
+              {word.english && <p class="english">{word.english}</p>}
+              {word.notes && <p class="notes">{word.notes}</p>}
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Lesson Content (Markdown) -->
+    <div class="lesson-body">
+      <slot />
+    </div>
+
+    <!-- Grammar Topics Tags -->
+    {hasGrammarTopics && (
+      <footer class="lesson-footer">
+        <div class="grammar-topics">
+          <span class="grammar-topics-label">Grammar Topics:</span>
+          <div class="grammar-topics-list">
+            {grammarTopics.map((topic) => (
+              <span class="grammar-tag">{topic}</span>
+            ))}
+          </div>
+        </div>
+      </footer>
+    )}
+
+    <!-- Lesson Navigation -->
+    <nav class="lesson-nav" aria-label="Lesson navigation">
+      <div class="lesson-nav-prev">
+        {previousLesson && (
+          <a href={`/lessons/${previousLesson.slug}`} class="lesson-nav-link">
+            <svg class="lesson-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            <div class="lesson-nav-text">
+              <span class="lesson-nav-label">Previous</span>
+              <span class="lesson-nav-title">{previousLesson.title}</span>
+            </div>
+          </a>
+        )}
+      </div>
+
+      <div class="lesson-nav-next">
+        {nextLesson && (
+          <a href={`/lessons/${nextLesson.slug}`} class="lesson-nav-link lesson-nav-link-next">
+            <div class="lesson-nav-text">
+              <span class="lesson-nav-label">Next</span>
+              <span class="lesson-nav-title">{nextLesson.title}</span>
+            </div>
+            <svg class="lesson-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        )}
+      </div>
+    </nav>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Lesson Header */
+  .lesson-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .lesson-section-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--color-accent);
+    background-color: var(--color-accent-bg);
+    border-radius: 9999px;
+    margin-bottom: 0.75rem;
+  }
+
+  .lesson-header h1 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .lesson-description {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Vocabulary Section */
+  .vocab-section {
+    margin: 2rem 0;
+  }
+
+  .vocab-section h2 {
+    margin-top: 0;
+  }
+
+  /* Lesson Body */
+  .lesson-body {
+    margin: 2rem 0;
+  }
+
+  /* Lesson Footer (Grammar Topics) */
+  .lesson-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .grammar-topics {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .grammar-topics-label {
+    font-size: var(--text-small);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+  }
+
+  .grammar-topics-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .grammar-tag {
+    display: inline-flex;
+    padding: 0.25rem 0.625rem;
+    font-size: var(--text-small);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.375rem;
+  }
+
+  /* Lesson Navigation */
+  .lesson-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .lesson-nav-prev,
+  .lesson-nav-next {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .lesson-nav-next {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .lesson-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast);
+    max-width: 100%;
+  }
+
+  .lesson-nav-link:hover {
+    background-color: var(--color-bg-tertiary);
+    border-color: var(--color-text-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .lesson-nav-link-next {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: white;
+  }
+
+  .lesson-nav-link-next:hover {
+    background-color: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+    color: white;
+  }
+
+  .lesson-nav-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .lesson-nav-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .lesson-nav-label {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .lesson-nav-link-next .lesson-nav-label {
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .lesson-nav-title {
+    font-weight: 600;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .lesson-nav-link-next .lesson-nav-title {
+    color: white;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .lesson-nav {
+      flex-direction: column;
+    }
+
+    .lesson-nav-prev,
+    .lesson-nav-next {
+      width: 100%;
+    }
+
+    .lesson-nav-next {
+      justify-content: stretch;
+    }
+
+    .lesson-nav-link {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

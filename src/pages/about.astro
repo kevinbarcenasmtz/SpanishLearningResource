@@ -1,0 +1,57 @@
+---
+/**
+ * about.astro
+ *
+ * Example static page using StaticPageLayout with ToC
+ */
+
+ import StaticPageLayout from '../layouts/StaticPageLayout.astro';
+
+// Define headings that match your page content (for ToC)
+const headings = [
+  { depth: 2, slug: 'why-mexican-spanish', text: 'Why Mexican Spanish?' },
+  { depth: 2, slug: 'our-approach', text: 'Our Approach' },
+  { depth: 2, slug: 'how-this-started', text: 'How This Started' },
+  { depth: 2, slug: 'acknowledgments', text: 'Acknowledgments' },
+];
+---
+
+<StaticPageLayout
+  title="About This Project"
+  description="Learn about the Mexican Spanish learning resource and its pedagogical approach."
+  headings={headings}
+>
+  <h2 id="why-mexican-spanish">Why Mexican Spanish?</h2>
+  <p>
+    Mexican Spanish is the most widely spoken variety of Spanish in the world, with over
+    130 million native speakers in Mexico alone. It features distinctive pronunciation
+    patterns, vocabulary, and expressions that set it apart from other Spanish varieties.
+  </p>
+
+  <h2 id="our-approach">Our Approach</h2>
+  <p>
+    Our pedagogical approach emphasizes practical, real-world communication. Each lesson
+    is built around authentic situations you might encounter when visiting Mexico or
+    speaking with Mexican Spanish speakers.
+  </p>
+
+  <div class="callout">
+    <div class="callout-title">Linguistic Features</div>
+    <p>
+      We include IPA (International Phonetic Alphabet) transcriptions throughout
+      to help you achieve accurate pronunciation.
+    </p>
+  </div>
+
+  <h2 id="how-this-started">How This Started</h2>
+  <p>
+    This project was inspired by a Palestinian Arabic learning resource that demonstrated
+    how effective a well-structured, culturally-rich approach to language learning can be.
+  </p>
+
+  <h2 id="acknowledgments">Acknowledgments</h2>
+  <p>
+    We're grateful to the many native speakers, linguists, and educators who contributed
+    their expertise to this project.
+  </p>
+</StaticPageLayout>

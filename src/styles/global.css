@@ -372,14 +372,13 @@
     font-size: calc(var(--text-small) * 0.95);
   }
 
-  /* Active state overrides depth font-weight */
+  /* Active state always bold regardless of depth */
   .toc-item.active[data-depth='1'],
   .toc-item.active[data-depth='2'],
   .toc-item.active[data-depth='3'],
   .toc-item.active[data-depth='4'] {
     font-weight: 600;
   }
-
   /* --------------------------------------------
      Prose / Content Area
      -------------------------------------------- */
@@ -451,6 +450,16 @@
   .prose h3[id],
   .prose h4[id] {
     scroll-margin-top: calc(var(--header-height) + 20px);
+  }
+
+  /* Mobile adjustment */
+  @media (max-width: 1023px) {
+    .prose h1[id],
+    .prose h2[id],
+    .prose h3[id],
+    .prose h4[id] {
+      scroll-margin-top: calc(var(--header-height-mobile) + 20px);
+    }
   }
 
   /* --------------------------------------------

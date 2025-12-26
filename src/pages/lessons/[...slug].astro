@@ -1,9 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
-import SidebarLayout from '../../layouts/SidebarLayout.astro';
+/**
+ * [...slug].astro
+ *
+ * Dynamic lesson page that:
+ * - Fetches lesson content from collection
+ * - Extracts headings for Table of Contents
+ * - Calculates previous/next navigation
+ * - Renders using LessonLayout
+ */
 
-// generate all static paths for lessonse
+ import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import LessonLayout from '../../layouts/LessonLayout.astro';
+
+// Generate static paths for all lessons
 export async function getStaticPaths() {
   const lessons = await getCollection('lessons');
   return lessons.map((lesson) => ({
@@ -17,7 +27,9 @@ interface Props {
 }
 
 const { lesson } = Astro.props;
-const { Content } = await lesson.render();
+
+// Render the lesson content and extract headings
+const { Content, headings } = await lesson.render();
 
 // Get all lessons sorted by order for navigation
 const allLessons = await getCollection('lessons');
@@ -25,117 +37,23 @@ const sortedLessons = allLessons.sort((a, b) => a.data.order - b.data.order);
 
 // Find previous and next lessons
 const currentIndex = sortedLessons.findIndex((l) => l.slug === lesson.slug);
-const previousLesson = currentIndex > 0 ? sortedLessons[currentIndex - 1] : null;
-const nextLesson = currentIndex < sortedLessons.length - 1 ? sortedLessons[currentIndex + 1] : null;
+const previousLesson = currentIndex > 0
+  ? { slug: sortedLessons[currentIndex - 1].slug, title: sortedLessons[currentIndex - 1].data.title }
+  : null;
+const nextLesson = currentIndex < sortedLessons.length - 1
+  ? { slug: sortedLessons[currentIndex + 1].slug, title: sortedLessons[currentIndex + 1].data.title }
+  : null;
 ---
 
-<SidebarLayout title={lesson.data.title} currentLesson={lesson.slug}>
-  <article class="prose prose-zinc dark:prose-invert max-w-none">
-    <!-- Lesson Header -->
-    <div class="mb-8">
-      <div class="mb-2">
-        <span
-          class="inline-flex items-center rounded-full bg-emerald-100 dark:bg-emerald-900 px-3 py-1 text-xs font-medium text-emerald-800 dark:text-emerald-200"
-        >
-          {lesson.data.section}
-        </span>
-      </div>
-      <h1 class="mb-2">{lesson.data.title}</h1>
-      {lesson.data.description && <p class="lead">{lesson.data.description}</p>}
-    </div>
-
-    <!-- Optional Vocabulary Cards -->
-    {
-      lesson.data.vocabulary && lesson.data.vocabulary.length > 0 && (
-        <section class="not-prose mb-8">
-          <h2 class="mb-4 text-2xl font-bold text-zinc-900 dark:text-zinc-100">Vocabulary</h2>
-          <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {lesson.data.vocabulary.map((word) => (
-              <div class="rounded-lg border border-zinc-200 dark:border-zinc-800 p-4">
-                <p class="text-lg font-semibold text-emerald-600 dark:text-emerald-400">
-                  {word.spanish}
-                </p>
-                <p class="text-sm text-zinc-600 dark:text-zinc-400">{word.ipa}</p>
-                <p class="mt-2 text-zinc-900 dark:text-zinc-100">{word.english}</p>
-                {word.notes && (
-                  <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-500">{word.notes}</p>
-                )}
-              </div>
-            ))}
-          </div>
-        </section>
-      )
-    }
-
-    <!-- Lesson Content (Markdown) -->
-    <Content />
-
-    <!-- Grammar Topics Tags -->
-    {
-      lesson.data.grammarTopics && lesson.data.grammarTopics.length > 0 && (
-        <div class="not-prose mt-8 pt-6 border-t border-zinc-200 dark:border-zinc-800">
-          <p class="mb-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">Grammar Topics:</p>
-          <div class="flex flex-wrap gap-2">
-            {lesson.data.grammarTopics.map((topic) => (
-              <span class="inline-flex items-center rounded-md bg-zinc-100 dark:bg-zinc-800 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                {topic}
-              </span>
-            ))}
-          </div>
-        </div>
-      )
-    }
-
-    <!-- Navigation -->
-    <div
-      class="not-prose flex items-center justify-between mt-12 pt-6 border-t border-zinc-200 dark:border-zinc-800"
-    >
-      <div>
-        {
-          previousLesson && (
-            <a
-              href={`/lessons/${previousLesson.slug}`}
-              class="inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800 transition-colors"
-            >
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-              <div class="text-left">
-                <div class="text-xs text-zinc-500 dark:text-zinc-500">Previous</div>
-                <div>{previousLesson.data.title}</div>
-              </div>
-            </a>
-          )
-        }
-      </div>
-      <div>
-        {
-          nextLesson && (
-            <a
-              href={`/lessons/${nextLesson.slug}`}
-              class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700 transition-colors"
-            >
-              <div class="text-right">
-                <div class="text-xs text-emerald-100">Next</div>
-                <div>{nextLesson.data.title}</div>
-              </div>
-              <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </a>
-          )
-        }
-      </div>
-    </div>
-  </article>
-</SidebarLayout>
+<LessonLayout
+  title={lesson.data.title}
+  description={lesson.data.description}
+  section={lesson.data.section}
+  headings={headings}
+  vocabulary={lesson.data.vocabulary}
+  grammarTopics={lesson.data.grammarTopics}
+  previousLesson={previousLesson}
+  nextLesson={nextLesson}
+>
+  <Content />
+</LessonLayout>

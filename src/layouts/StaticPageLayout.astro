@@ -1,0 +1,107 @@
+---
+/**
+ * StaticPageLayout.astro
+ *
+ * Layout for static pages (about, front-matter, appendices) with:
+ * - Optional Table of Contents
+ * - Consistent styling with lesson pages
+ * - Flexible content area
+ */
+
+ import BaseLayout from './BaseLayout.astro';
+import RightSidebar from '../components/RightSidebar.astro';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  /** Page title */
+  title: string;
+  /** Page description for meta tag */
+  description?: string;
+  /** Headings for ToC (optional - pass empty array or omit to hide ToC) */
+  headings?: Heading[];
+  /** Explicitly show/hide ToC (defaults to true if headings provided) */
+  showToc?: boolean;
+}
+
+const {
+  title,
+  description,
+  headings = [],
+  showToc,
+} = Astro.props;
+
+// Show ToC if explicitly enabled, or if headings are provided and not explicitly disabled
+const displayToc = showToc ?? headings.length > 0;
+
+// Add page title to ToC if we have other headings
+const tocHeadings: Heading[] = displayToc && headings.length > 0
+  ? [{ depth: 1, slug: 'page-title', text: title }, ...headings]
+  : [];
+---
+
+<BaseLayout title={title} description={description}>
+  <!-- Right Sidebar: Table of Contents (optional) -->
+  {displayToc && tocHeadings.length > 0 && (
+    <Fragment slot="right-sidebar">
+      <RightSidebar headings={tocHeadings} />
+    </Fragment>
+  )}
+
+  <!-- Mobile ToC (optional) -->
+  {displayToc && tocHeadings.length > 0 && (
+    <Fragment slot="mobile-toc">
+      <RightSidebar headings={tocHeadings} title="On this page" />
+    </Fragment>
+  )}
+
+  <!-- Main Content -->
+  <article class="prose static-page">
+    <!-- Page Header -->
+    <header class="page-header">
+      <h1 id="page-title">{title}</h1>
+      {description && <p class="page-description">{description}</p>}
+    </header>
+
+    <!-- Page Content -->
+    <div class="page-body">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Page Header */
+  .page-header {
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .page-header h1 {
+    margin: 0 0 0.5rem 0;
+  }
+
+  .page-description {
+    font-size: var(--text-h4);
+    color: var(--color-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* Page Body */
+  .page-body {
+    margin: 2rem 0;
+  }
+
+  /* Ensure headings have scroll margin for ToC navigation */
+  .static-page :global(h2[id]),
+  .static-page :global(h3[id]),
+  .static-page :global(h4[id]) {
+    scroll-margin-top: calc(var(--header-height) + 20px);
+  }
+</style>

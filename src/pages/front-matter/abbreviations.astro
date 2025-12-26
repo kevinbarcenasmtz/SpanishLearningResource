@@ -1,0 +1,66 @@
+---
+/**
+ * abbreviations.astro
+ *
+ * Example static page using StaticPageLayout WITHOUT ToC
+ * (simple reference page that doesn't need navigation)
+ */
+
+ import StaticPageLayout from '../../layouts/StaticPageLayout.astro';
+---
+
+<StaticPageLayout
+  title="Abbreviations and Symbols"
+  description="List of abbreviations and symbols used throughout this resource."
+  showToc={false}
+>
+  <p>
+    The following abbreviations and symbols are used throughout this course:
+  </p>
+
+  <h2>Grammatical Abbreviations</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Abbreviation</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>m.</td><td>masculine</td></tr>
+        <tr><td>f.</td><td>feminine</td></tr>
+        <tr><td>pl.</td><td>plural</td></tr>
+        <tr><td>sing.</td><td>singular</td></tr>
+        <tr><td>inf.</td><td>informal</td></tr>
+        <tr><td>form.</td><td>formal</td></tr>
+        <tr><td>lit.</td><td>literally</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>IPA Symbols</h2>
+  <p>
+    See the <a href="/front-matter/ipa-guide">Guide to IPA Pronunciation</a> for
+    a complete reference of phonetic symbols used in this course.
+  </p>
+
+  <h2>Other Symbols</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>→</td><td>becomes / transforms to</td></tr>
+        <tr><td>~</td><td>approximately / similar to</td></tr>
+        <tr><td>*</td><td>incorrect form (used in examples)</td></tr>
+        <tr><td>[ ]</td><td>IPA transcription</td></tr>
+        <tr><td>/ /</td><td>phonemic transcription</td></tr>
+      </tbody>
+    </table>
+  </div>
+</StaticPageLayout>

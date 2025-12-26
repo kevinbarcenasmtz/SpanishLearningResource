@@ -1,47 +1,89 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+/**
+ * index.astro
+ *
+ * Home page with ToC integration
+ */
+
+ import BaseLayout from '../layouts/BaseLayout.astro';
+import RightSidebar from '../components/RightSidebar.astro';
+
+// Define headings for the ToC (must match IDs in content)
+const headings = [
+  { depth: 1, slug: 'welcome', text: 'Welcome to Mexican Spanish' },
+  { depth: 2, slug: 'getting-started', text: 'Getting Started' },
+  { depth: 2, slug: 'features', text: 'Features' },
+  { depth: 2, slug: 'how-to-navigate', text: 'How to Navigate' },
+];
 ---
 
 <BaseLayout title="A Course in Mexican Spanish">
+  <!-- Right Sidebar: Table of Contents -->
+  <Fragment slot="right-sidebar">
+    <RightSidebar headings={headings} />
+  </Fragment>
+
+  <!-- Mobile ToC -->
+  <Fragment slot="mobile-toc">
+    <RightSidebar headings={headings} title="On this page" />
+  </Fragment>
 
   <!-- Main Content -->
   <article class="prose">
     <h1 id="welcome">Welcome to Mexican Spanish</h1>
     <p>
-      This is a test page to verify the BaseLayout is working correctly. You should see a
-      three-column layout on desktop and mobile drawers on smaller screens.
+      ¡Bienvenidos! This is a comprehensive Mexican Spanish learning resource designed
+      specifically for English speakers who already have foundational knowledge of Spanish
+      through conversations and exploratory use.
     </p>
 
     <h2 id="getting-started">Getting Started</h2>
     <p>
-      On desktop (≥1024px), you'll see the left navigation sidebar, this main content area, and the
-      table of contents on the right.
+      If you're new to this resource, we recommend starting with the
+      <a href="/front-matter/introduction">Introduction to Mexican Spanish</a> and the
+      <a href="/front-matter/how-to-use">How to Use This Resource</a> guide.
+    </p>
+
+    <p>The course is divided into three main sections:</p>
+    <ul>
+      <li><strong>Foundation</strong> (Lessons 1-10): Basic greetings, family, everyday situations</li>
+      <li><strong>Intermediate</strong> (Lessons 11-20): Past tenses, complex conversations, travel</li>
+      <li><strong>Advanced</strong> (Lessons 21-30): Subjunctive, formal situations, cultural deep dives</li>
+    </ul>
+
+    <h2 id="features">Features</h2>
+    <p>Each lesson in this course includes:</p>
+    <ul>
+      <li><strong>Dialogues</strong> with realistic Mexican Spanish conversations</li>
+      <li><strong>IPA transcriptions</strong> for precise pronunciation guidance</li>
+      <li><strong>Vocabulary cards</strong> with definitions and notes</li>
+      <li><strong>Grammar notes</strong> explaining structures in context</li>
+      <li><strong>Cultural notes</strong> providing social and historical context</li>
+      <li><strong>Practice drills</strong> with collapsible answers</li>
+    </ul>
+
+    <h2 id="how-to-navigate">How to Navigate</h2>
+    <p>
+      Use the <strong>left sidebar</strong> to navigate between lessons and sections.
+      On each page, the <strong>right sidebar</strong> shows a table of contents for
+      quick navigation within the page.
     </p>
 
     <p>
-      On mobile (<Fragment
-        >1024px), click the hamburger menu (☰) to open navigation, or the list icon to open the
-        table of contents.
-      </Fragment>
-
-      <h2 id="features">Features to Test</h2>
-      <ul>
-        <li>Responsive grid layout</li>
-        <li>Mobile drawer overlays</li>
-        <li>Header with logo and toggles</li>
-        <li>Custom scrollbars</li>
-        <li>Typography and spacing</li>
-      </ul>
-
-      <div class="callout">
-        <div class="callout-title">Test Callout</div>
-        <p>This callout box should have a red left border and light pink background.</p>
-      </div>
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-        labore et dolore magna aliqua. Ut enim ad minim veniam.
-      </p>
+      On mobile devices, tap the <strong>hamburger menu</strong> (☰) to open navigation,
+      or the <strong>list icon</strong> on the right to view the table of contents.
     </p>
-  </article></BaseLayout
->
+
+    <div class="callout">
+      <div class="callout-title">Keyboard Navigation</div>
+      <p>
+        Press <kbd>/</kbd> to focus the search bar, use <kbd>↑</kbd> and <kbd>↓</kbd>
+        arrows to move through lessons, and <kbd>←</kbd> / <kbd>→</kbd> to collapse/expand sections.
+      </p>
+    </div>
+
+    <p>
+      Ready to begin? <a href="/lessons/lesson-01">Start with Lesson 1: At María's House →</a>
+    </p>
+  </article>
+</BaseLayout>

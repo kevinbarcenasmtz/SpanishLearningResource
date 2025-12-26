@@ -11,14 +11,13 @@
  * - Mobile drawer overlay infrastructure
  * - Skip link for accessibility
  * 
- * Usage:
- * ```astro
- * <BaseLayout title="Page Title">
- *   <Fragment slot="left-sidebar">...</Fragment>
- *   <Fragment slot="right-sidebar">...</Fragment>
- *   <main>Content here</main>
- * </BaseLayout>
- * ```
+ * Slots:
+ * - default: Main content area
+ * - left-sidebar: Navigation (defaults to LeftSidebar)
+ * - right-sidebar: Table of Contents (empty by default, pages fill this)
+ * - mobile-nav: Mobile navigation drawer content
+ * - mobile-toc: Mobile ToC drawer content
+ * - header: Header override (defaults to Header component)
  */
 
  import '../styles/global.css';
@@ -122,7 +121,7 @@ const currentPath = Astro.url.pathname;
           aria-label="Table of contents"
         >
           <slot name="right-sidebar">
-            <RightSideBar headings={tocHeadings} />
+            <!-- Empty by default - pages pass RightSidebar here -->
           </slot>
         </aside>
       </div>
@@ -143,7 +142,7 @@ const currentPath = Astro.url.pathname;
       aria-modal="true"
       aria-label="Navigation menu"
     >
-      <div class="flex items-center justify-between p-4 border-b border-border">
+      <div class="drawer-header">
         <span class="font-display text-lg">Navigation</span>
         <button 
           type="button"
@@ -156,7 +155,7 @@ const currentPath = Astro.url.pathname;
           </svg>
         </button>
       </div>
-      <div class="p-4">
+      <div class="drawer-body">
         <slot name="mobile-nav">
           <LeftSidebar currentPath={currentPath} />
         </slot>
@@ -171,7 +170,7 @@ const currentPath = Astro.url.pathname;
       aria-modal="true"
       aria-label="Table of contents"
     >
-      <div class="flex items-center justify-between p-4 border-b border-border">
+      <div class="drawer-header">
         <span class="font-display text-lg">On this page</span>
         <button 
           type="button"
@@ -184,9 +183,9 @@ const currentPath = Astro.url.pathname;
           </svg>
         </button>
       </div>
-      <div class="p-4">
+      <div class="drawer-body">
         <slot name="mobile-toc">
-          <!-- Populated with same content as right-sidebar -->
+          <!-- Empty by default - pages pass RightSidebar here -->
         </slot>
       </div>
     </div>
@@ -232,13 +231,11 @@ const currentPath = Astro.url.pathname;
         if (!focusTrapActive || e.key !== 'Tab') return;
 
         if (e.shiftKey) {
-          // Shift + Tab
           if (document.activeElement === firstFocusableElement) {
             e.preventDefault();
             lastFocusableElement?.focus();
           }
         } else {
-          // Tab
           if (document.activeElement === lastFocusableElement) {
             e.preventDefault();
             firstFocusableElement?.focus();
@@ -260,10 +257,8 @@ const currentPath = Astro.url.pathname;
         document.body.classList.add('body-scroll-lock');
         toggle?.setAttribute('aria-expanded', 'true');
 
-        // Setup focus trap
         setupFocusTrap(drawer);
 
-        // Focus first focusable element
         const focusable = drawer.querySelector('button, a, input');
         (focusable as HTMLElement)?.focus();
       }
@@ -277,7 +272,6 @@ const currentPath = Astro.url.pathname;
         toggle?.setAttribute('aria-expanded', 'false');
         toggle?.focus();
 
-        // Remove focus trap
         removeFocusTrap();
       }
 
@@ -324,10 +318,33 @@ const currentPath = Astro.url.pathname;
         if (e.key === 'Escape') {
           closeAllDrawers();
         }
-        
-        // Handle focus trap
         handleFocusTrap(e);
       });
+
+      // Close drawer when clicking ToC links (mobile)
+      rightDrawer?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          setTimeout(() => closeDrawer(rightDrawer, tocToggle), 100);
+        });
+      });
     </script>
+
+    <style>
+      .drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid var(--color-border);
+        position: sticky;
+        top: 0;
+        background-color: var(--color-bg-primary);
+        z-index: 1;
+      }
+
+      .drawer-body {
+        padding: 1rem;
+      }
+    </style>
   </body>
 </html>
