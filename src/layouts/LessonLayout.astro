@@ -10,7 +10,7 @@
  * - Heading extraction for ToC
  */
 
- import BaseLayout from './BaseLayout.astro';
+import BaseLayout from './BaseLayout.astro';
 import RightSidebar from '../components/RightSidebar.astro';
 
 interface Heading {
@@ -93,21 +93,23 @@ const tocHeadings: Heading[] = [
     </header>
 
     <!-- Vocabulary Cards -->
-    {hasVocabulary && (
-      <section class="vocab-section" aria-labelledby="vocabulary">
-        <h2 id="vocabulary">Vocabulary</h2>
-        <div class="vocab-grid">
-          {vocabulary.map((word) => (
-            <div class="vocab-card">
-              {word.spanish && <p class="spanish">{word.spanish}</p>}
-              {word.ipa && <span class="ipa">{word.ipa}</span>}
-              {word.english && <p class="english">{word.english}</p>}
-              {word.notes && <p class="notes">{word.notes}</p>}
-            </div>
-          ))}
-        </div>
-      </section>
-    )}
+    {
+      hasVocabulary && (
+        <section class="vocab-section" aria-labelledby="vocabulary">
+          <h2 id="vocabulary">Vocabulary</h2>
+          <div class="vocab-grid">
+            {vocabulary.map((word) => (
+              <div class="vocab-card">
+                {word.spanish && <p class="spanish">{word.spanish}</p>}
+                {word.ipa && <span class="ipa">{word.ipa}</span>}
+                {word.english && <p class="english">{word.english}</p>}
+                {word.notes && <p class="notes">{word.notes}</p>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )
+    }
 
     <!-- Lesson Content (Markdown) -->
     <div class="lesson-body">
@@ -115,47 +117,75 @@ const tocHeadings: Heading[] = [
     </div>
 
     <!-- Grammar Topics Tags -->
-    {hasGrammarTopics && (
-      <footer class="lesson-footer">
-        <div class="grammar-topics">
-          <span class="grammar-topics-label">Grammar Topics:</span>
-          <div class="grammar-topics-list">
-            {grammarTopics.map((topic) => (
-              <span class="grammar-tag">{topic}</span>
-            ))}
+    {
+      hasGrammarTopics && (
+        <footer class="lesson-footer">
+          <div class="grammar-topics">
+            <span class="grammar-topics-label">Grammar Topics:</span>
+            <div class="grammar-topics-list">
+              {grammarTopics.map((topic) => (
+                <span class="grammar-tag">{topic}</span>
+              ))}
+            </div>
           </div>
-        </div>
-      </footer>
-    )}
+        </footer>
+      )
+    }
 
     <!-- Lesson Navigation -->
     <nav class="lesson-nav" aria-label="Lesson navigation">
       <div class="lesson-nav-prev">
-        {previousLesson && (
-          <a href={`/lessons/${previousLesson.slug}`} class="lesson-nav-link">
-            <svg class="lesson-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            <div class="lesson-nav-text">
-              <span class="lesson-nav-label">Previous</span>
-              <span class="lesson-nav-title">{previousLesson.title}</span>
-            </div>
-          </a>
-        )}
+        {
+          previousLesson && (
+            <a href={`/lessons/${previousLesson.slug}`} class="lesson-nav-link">
+              <svg
+                class="lesson-nav-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+              <div class="lesson-nav-text">
+                <span class="lesson-nav-label">Previous</span>
+                <span class="lesson-nav-title">{previousLesson.title}</span>
+              </div>
+            </a>
+          )
+        }
       </div>
 
       <div class="lesson-nav-next">
-        {nextLesson && (
-          <a href={`/lessons/${nextLesson.slug}`} class="lesson-nav-link lesson-nav-link-next">
-            <div class="lesson-nav-text">
-              <span class="lesson-nav-label">Next</span>
-              <span class="lesson-nav-title">{nextLesson.title}</span>
-            </div>
-            <svg class="lesson-nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        )}
+        {
+          nextLesson && (
+            <a href={`/lessons/${nextLesson.slug}`} class="lesson-nav-link lesson-nav-link-next">
+              <div class="lesson-nav-text">
+                <span class="lesson-nav-label">Next</span>
+                <span class="lesson-nav-title">{nextLesson.title}</span>
+              </div>
+              <svg
+                class="lesson-nav-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </a>
+          )
+        }
       </div>
     </nav>
   </article>

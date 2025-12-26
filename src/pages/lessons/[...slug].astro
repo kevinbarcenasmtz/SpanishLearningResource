@@ -9,7 +9,7 @@
  * - Renders using LessonLayout
  */
 
- import { getCollection } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import LessonLayout from '../../layouts/LessonLayout.astro';
 
@@ -37,12 +37,20 @@ const sortedLessons = allLessons.sort((a, b) => a.data.order - b.data.order);
 
 // Find previous and next lessons
 const currentIndex = sortedLessons.findIndex((l) => l.slug === lesson.slug);
-const previousLesson = currentIndex > 0
-  ? { slug: sortedLessons[currentIndex - 1].slug, title: sortedLessons[currentIndex - 1].data.title }
-  : null;
-const nextLesson = currentIndex < sortedLessons.length - 1
-  ? { slug: sortedLessons[currentIndex + 1].slug, title: sortedLessons[currentIndex + 1].data.title }
-  : null;
+const previousLesson =
+  currentIndex > 0
+    ? {
+        slug: sortedLessons[currentIndex - 1].slug,
+        title: sortedLessons[currentIndex - 1].data.title,
+      }
+    : null;
+const nextLesson =
+  currentIndex < sortedLessons.length - 1
+    ? {
+        slug: sortedLessons[currentIndex + 1].slug,
+        title: sortedLessons[currentIndex + 1].data.title,
+      }
+    : null;
 ---
 
 <LessonLayout

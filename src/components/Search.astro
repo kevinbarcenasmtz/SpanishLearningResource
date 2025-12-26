@@ -9,7 +9,7 @@
  * - Accessible label
  */
 
- interface Props {
+interface Props {
   /** Input element ID */
   id: string;
   /** Placeholder text */
@@ -20,28 +20,16 @@
   showHint?: boolean;
 }
 
-const {
-  id,
-  placeholder = 'Search...',
-  ariaLabel = 'Search',
-  showHint = true,
-} = Astro.props;
+const { id, placeholder = 'Search...', ariaLabel = 'Search', showHint = true } = Astro.props;
 ---
 
 <div class="search-container">
-  <svg
-    class="search-icon"
-    fill="none"
-    stroke="currentColor"
-    viewBox="0 0 24 24"
-    aria-hidden="true"
-  >
+  <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
     <path
       stroke-linecap="round"
       stroke-linejoin="round"
       stroke-width="2"
-      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-    />
+      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
   </svg>
   <input
     type="text"
@@ -51,9 +39,13 @@ const {
     aria-label={ariaLabel}
     autocomplete="off"
   />
-  {showHint && (
-    <kbd class="search-hint" aria-hidden="true">/</kbd>
-  )}
+  {
+    showHint && (
+      <kbd class="search-hint" aria-hidden="true">
+        /
+      </kbd>
+    )
+  }
 </div>
 
 <style>

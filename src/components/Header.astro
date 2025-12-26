@@ -1,22 +1,10 @@
 ---
 /**
  * Header.astro
- *
- * Global site header with:
- * - Mobile menu toggle (hamburger) for left sidebar
- * - Logo/Brand with site title
- * - Mobile ToC toggle for right sidebar
- * - Dark mode toggle (future: Phase 4)
- *
- * Responsive behavior:
- * - Desktop (≥1024px): No hamburger/ToC buttons (sidebars visible)
- * - Tablet/Mobile (<1024px): Hamburger (left) + ToC button (right)
  */
-
-interface Props {
+ interface Props {
   siteTitle?: string;
 }
-
 const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
 ---
 
@@ -41,16 +29,19 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
     </button>
 
     <!-- Logo/Brand -->
-    <a href="/" class="flex items-center gap-3 text-primary no-underline">
-      <span
-        class="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-white font-display text-lg"
-      >
+    <a href="/" class="flex items-center gap-3 no-underline group">
+      <!-- Icon badge -->
+      <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#c41e1e] text-[#f7b32b] font-display text-lg font-bold">
         MX
       </span>
-      <span class="font-display text-lg hidden sm:inline">
+      <!-- Full title (desktop) -->
+      <span class="font-display text-xl hidden sm:inline rotulo-text-sm">
         {siteTitle}
       </span>
-      <span class="font-display text-lg sm:hidden"> Mexican Spanish </span>
+      <!-- Short title (mobile) -->
+      <span class="font-display text-lg sm:hidden rotulo-text-sm">
+        Mexican Spanish
+      </span>
     </a>
 
     <!-- Mobile ToC Toggle (Right) -->

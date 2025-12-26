@@ -8,7 +8,7 @@
  * - Flexible content area
  */
 
- import BaseLayout from './BaseLayout.astro';
+import BaseLayout from './BaseLayout.astro';
 import RightSidebar from '../components/RightSidebar.astro';
 
 interface Heading {
@@ -28,36 +28,36 @@ interface Props {
   showToc?: boolean;
 }
 
-const {
-  title,
-  description,
-  headings = [],
-  showToc,
-} = Astro.props;
+const { title, description, headings = [], showToc } = Astro.props;
 
 // Show ToC if explicitly enabled, or if headings are provided and not explicitly disabled
 const displayToc = showToc ?? headings.length > 0;
 
 // Add page title to ToC if we have other headings
-const tocHeadings: Heading[] = displayToc && headings.length > 0
-  ? [{ depth: 1, slug: 'page-title', text: title }, ...headings]
-  : [];
+const tocHeadings: Heading[] =
+  displayToc && headings.length > 0
+    ? [{ depth: 1, slug: 'page-title', text: title }, ...headings]
+    : [];
 ---
 
 <BaseLayout title={title} description={description}>
   <!-- Right Sidebar: Table of Contents (optional) -->
-  {displayToc && tocHeadings.length > 0 && (
-    <Fragment slot="right-sidebar">
-      <RightSidebar headings={tocHeadings} />
-    </Fragment>
-  )}
+  {
+    displayToc && tocHeadings.length > 0 && (
+      <Fragment slot="right-sidebar">
+        <RightSidebar headings={tocHeadings} />
+      </Fragment>
+    )
+  }
 
   <!-- Mobile ToC (optional) -->
-  {displayToc && tocHeadings.length > 0 && (
-    <Fragment slot="mobile-toc">
-      <RightSidebar headings={tocHeadings} title="On this page" />
-    </Fragment>
-  )}
+  {
+    displayToc && tocHeadings.length > 0 && (
+      <Fragment slot="mobile-toc">
+        <RightSidebar headings={tocHeadings} title="On this page" />
+      </Fragment>
+    )
+  }
 
   <!-- Main Content -->
   <article class="prose static-page">

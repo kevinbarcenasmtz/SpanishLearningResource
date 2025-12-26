@@ -8,7 +8,7 @@
  * - Optional icon support
  */
 
- interface Props {
+interface Props {
   /** Navigation link href */
   href: string;
   /** Display title */
@@ -28,11 +28,13 @@ const { href, title, isActive = false, icon } = Astro.props;
   data-nav-item
   aria-current={isActive ? 'page' : undefined}
 >
-  {icon && (
-    <span class="nav-item-icon" aria-hidden="true">
-      <Fragment set:html={icon} />
-    </span>
-  )}
+  {
+    icon && (
+      <span class="nav-item-icon" aria-hidden="true">
+        <Fragment set:html={icon} />
+      </span>
+    )
+  }
   <span class="nav-item-text">{title}</span>
 </a>
 

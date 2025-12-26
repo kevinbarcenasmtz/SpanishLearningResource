@@ -9,7 +9,7 @@
  * - Smooth scroll navigation
  */
 
- import TocItem from './TocItem.astro';
+import TocItem from './TocItem.astro';
 
 interface Heading {
   depth: number;
@@ -25,38 +25,40 @@ interface Props {
 const { headings = [], title = 'On this page' } = Astro.props;
 
 // Filter to only include h1-h4 headings
-const filteredHeadings = headings.filter(
-  (h) => h.depth >= 1 && h.depth <= 4
-);
+const filteredHeadings = headings.filter((h) => h.depth >= 1 && h.depth <= 4);
 
 const hasHeadings = filteredHeadings.length > 0;
 ---
 
-{hasHeadings && (
-  <nav class="toc" aria-label="Table of contents">
-    <h2 class="toc-header">{title}</h2>
+{
+  hasHeadings && (
+    <nav class="toc" aria-label="Table of contents">
+      <h2 class="toc-header">{title}</h2>
 
-    <ul class="toc-list" role="list">
-      {filteredHeadings.map((heading) => (
-        <li>
-          <TocItem
-            href={`#${heading.slug}`}
-            text={heading.text}
-            depth={heading.depth as 1 | 2 | 3 | 4}
-          />
-        </li>
-      ))}
-    </ul>
+      <ul class="toc-list" role="list">
+        {filteredHeadings.map((heading) => (
+          <li>
+            <TocItem
+              href={`#${heading.slug}`}
+              text={heading.text}
+              depth={heading.depth as 1 | 2 | 3 | 4}
+            />
+          </li>
+        ))}
+      </ul>
 
-    <div class="toc-indicator" aria-hidden="true"></div>
-  </nav>
-)}
+      <div class="toc-indicator" aria-hidden="true" />
+    </nav>
+  )
+}
 
-{!hasHeadings && (
-  <nav class="toc toc-empty" aria-label="Table of contents">
-    <p class="toc-empty-message">No sections on this page</p>
-  </nav>
-)}
+{
+  !hasHeadings && (
+    <nav class="toc toc-empty" aria-label="Table of contents">
+      <p class="toc-empty-message">No sections on this page</p>
+    </nav>
+  )
+}
 
 <script>
   function initScrollSpy() {
@@ -66,10 +68,12 @@ const hasHeadings = filteredHeadings.length > 0;
     if (tocLinks.length === 0) return;
 
     // Get heading IDs from ToC links
-    const headingIds = Array.from(tocLinks).map((link) => {
-      const href = link.getAttribute('href');
-      return href ? href.slice(1) : '';
-    }).filter(Boolean);
+    const headingIds = Array.from(tocLinks)
+      .map((link) => {
+        const href = link.getAttribute('href');
+        return href ? href.slice(1) : '';
+      })
+      .filter(Boolean);
 
     // Get corresponding heading elements
     const headingElements = headingIds
@@ -125,8 +129,9 @@ const hasHeadings = filteredHeadings.length > 0;
       });
 
       if (visibleHeadings.size > 0) {
-        const sortedVisible = Array.from(visibleHeadings.entries())
-          .sort(([, a], [, b]) => a.boundingClientRect.top - b.boundingClientRect.top);
+        const sortedVisible = Array.from(visibleHeadings.entries()).sort(
+          ([, a], [, b]) => a.boundingClientRect.top - b.boundingClientRect.top,
+        );
         const [topId] = sortedVisible[0];
         setActiveHeading(topId);
       } else {

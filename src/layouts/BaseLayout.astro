@@ -1,7 +1,7 @@
 ---
 /**
  * BaseLayout.astro
- * 
+ *
  * The foundational layout providing:
  * - HTML document shell with meta tags
  * - Font preloading for performance
@@ -10,7 +10,7 @@
  * - Dark mode support with localStorage persistence
  * - Mobile drawer overlay infrastructure
  * - Skip link for accessibility
- * 
+ *
  * Slots:
  * - default: Main content area
  * - left-sidebar: Navigation (defaults to LeftSidebar)
@@ -20,7 +20,7 @@
  * - header: Header override (defaults to Header component)
  */
 
- import '../styles/global.css';
+import '../styles/global.css';
 import Header from '../components/Header.astro';
 import LeftSidebar from '../components/LeftSidebar.astro';
 
@@ -29,9 +29,9 @@ interface Props {
   description?: string;
 }
 
-const { 
-  title, 
-  description = 'A comprehensive Mexican Spanish learning resource for English speakers' 
+const {
+  title,
+  description = 'A comprehensive Mexican Spanish learning resource for English speakers',
 } = Astro.props;
 
 const siteTitle = 'A Course in Mexican Spanish';
@@ -46,58 +46,44 @@ const currentPath = Astro.url.pathname;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    
+
     <title>{fullTitle}</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    
+
     <!-- Font Preloading -->
-    <link 
-      rel="preload" 
-      href="/fonts/chilanga-regular.ttf" 
-      as="font" 
-      type="font/ttf" 
-      crossorigin 
-    />
-    <link 
-      rel="preload" 
-      href="/fonts/atkinson-regular.ttf" 
-      as="font" 
-      type="font/ttf" 
-      crossorigin 
-    />
-    
+    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" crossorigin />
+
     <!-- Dark Mode: Prevent flash of wrong theme -->
     <script is:inline>
-      (function() {
+      (function () {
         const stored = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
+
         if (stored === 'dark' || (!stored && prefersDark)) {
           document.documentElement.classList.add('dark');
         }
       })();
     </script>
   </head>
-  
+
   <body class="bg-primary text-primary min-h-screen antialiased">
     <!-- Skip Link (Accessibility) -->
-    <a href="#main-content" class="skip-link">
-      Skip to main content
-    </a>
-    
+    <a href="#main-content" class="skip-link"> Skip to main content </a>
+
     <!-- App Shell -->
     <div class="app-shell">
       <!-- Header -->
       <slot name="header">
         <Header siteTitle={siteTitle} />
       </slot>
-      
+
       <!-- Main Layout Grid -->
       <div class="app-body">
         <!-- Left Sidebar (Navigation) -->
-        <aside 
+        <aside
           id="left-sidebar"
           class="app-sidebar-left custom-scrollbar"
           aria-label="Site navigation"
@@ -106,16 +92,16 @@ const currentPath = Astro.url.pathname;
             <LeftSidebar currentPath={currentPath} />
           </slot>
         </aside>
-        
+
         <!-- Main Content Area -->
         <main id="main-content" class="app-content custom-scrollbar">
           <div class="content-wrapper">
             <slot />
           </div>
         </main>
-        
+
         <!-- Right Sidebar (Table of Contents) -->
-        <aside 
+        <aside
           id="right-sidebar"
           class="app-sidebar-right custom-scrollbar"
           aria-label="Table of contents"
@@ -126,17 +112,13 @@ const currentPath = Astro.url.pathname;
         </aside>
       </div>
     </div>
-    
+
     <!-- Mobile Drawer Overlay -->
-    <div 
-      id="drawer-overlay" 
-      class="drawer-overlay"
-      aria-hidden="true"
-    ></div>
-    
+    <div id="drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
+
     <!-- Mobile Left Drawer -->
-    <div 
-      id="left-drawer" 
+    <div
+      id="left-drawer"
       class="drawer drawer-left custom-scrollbar"
       role="dialog"
       aria-modal="true"
@@ -144,14 +126,18 @@ const currentPath = Astro.url.pathname;
     >
       <div class="drawer-header">
         <span class="font-display text-lg">Navigation</span>
-        <button 
+        <button
           type="button"
           class="theme-toggle"
           aria-label="Close navigation menu"
           data-close-drawer="left"
         >
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
@@ -161,10 +147,10 @@ const currentPath = Astro.url.pathname;
         </slot>
       </div>
     </div>
-    
+
     <!-- Mobile Right Drawer (ToC) -->
-    <div 
-      id="right-drawer" 
+    <div
+      id="right-drawer"
       class="drawer drawer-right custom-scrollbar"
       role="dialog"
       aria-modal="true"
@@ -172,14 +158,18 @@ const currentPath = Astro.url.pathname;
     >
       <div class="drawer-header">
         <span class="font-display text-lg">On this page</span>
-        <button 
+        <button
           type="button"
           class="theme-toggle"
           aria-label="Close table of contents"
           data-close-drawer="right"
         >
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
@@ -189,7 +179,7 @@ const currentPath = Astro.url.pathname;
         </slot>
       </div>
     </div>
-    
+
     <!-- Mobile Drawer Script -->
     <script>
       const overlay = document.getElementById('drawer-overlay');
@@ -210,7 +200,7 @@ const currentPath = Astro.url.pathname;
           'textarea:not([disabled])',
           'input:not([disabled])',
           'select:not([disabled])',
-          '[tabindex]:not([tabindex="-1"])'
+          '[tabindex]:not([tabindex="-1"])',
         ].join(',');
 
         return Array.from(container.querySelectorAll(focusableSelectors)) as HTMLElement[];
@@ -218,7 +208,7 @@ const currentPath = Astro.url.pathname;
 
       function setupFocusTrap(drawer: HTMLElement) {
         const focusableElements = getFocusableElements(drawer);
-        
+
         if (focusableElements.length === 0) return;
 
         firstFocusableElement = focusableElements[0];
