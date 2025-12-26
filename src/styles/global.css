@@ -82,14 +82,14 @@
   font-family: 'Chilanga';
   src: url('/fonts/chilanga-regular.ttf') format('truetype');
   font-display: swap;
-  font-weight: 400;
+  font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Atkinson Hyperlegible';
   src: url('/fonts/atkinson-regular.ttf') format('ttf');
-  font-display: swap;
+  font-display: normal;
   font-weight: 400;
   font-style: normal;
 }
@@ -97,7 +97,7 @@
 @font-face {
   font-family: 'Atkinson Hyperlegible';
   src: url('/fonts/atkinson-bold.ttf') format('ttf');
-  font-display: swap;
+  font-display: normal;
   font-weight: 700;
   font-style: normal;
 }

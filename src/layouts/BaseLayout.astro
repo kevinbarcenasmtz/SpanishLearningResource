@@ -1,7 +1,7 @@
 ---
 /**
  * BaseLayout.astro
- *
+ * 
  * The foundational layout providing:
  * - HTML document shell with meta tags
  * - Font preloading for performance
@@ -10,7 +10,7 @@
  * - Dark mode support with localStorage persistence
  * - Mobile drawer overlay infrastructure
  * - Skip link for accessibility
- *
+ * 
  * Usage:
  * ```astro
  * <BaseLayout title="Page Title">
@@ -21,21 +21,23 @@
  * ```
  */
 
-import '../styles/global.css';
+ import '../styles/global.css';
 import Header from '../components/Header.astro';
+import LeftSidebar from '../components/LeftSidebar.astro';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const {
-  title,
-  description = 'A comprehensive Mexican Spanish learning resource for English speakers',
+const { 
+  title, 
+  description = 'A comprehensive Mexican Spanish learning resource for English speakers' 
 } = Astro.props;
 
 const siteTitle = 'A Course in Mexican Spanish';
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -45,70 +47,76 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-
+    
     <title>{fullTitle}</title>
-
+    
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
+    
     <!-- Font Preloading -->
-    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin />
-    <link
-      rel="preload"
-      href="/fonts/atkinson-regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
+    <link 
+      rel="preload" 
+      href="/fonts/chilanga-regular.ttf" 
+      as="font" 
+      type="font/ttf" 
+      crossorigin 
     />
-
+    <link 
+      rel="preload" 
+      href="/fonts/atkinson-regular.woff2" 
+      as="font" 
+      type="font/woff2" 
+      crossorigin 
+    />
+    
     <!-- Dark Mode: Prevent flash of wrong theme -->
     <script is:inline>
-      (function () {
+      (function() {
         const stored = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
+        
         if (stored === 'dark' || (!stored && prefersDark)) {
           document.documentElement.classList.add('dark');
         }
       })();
     </script>
   </head>
-
+  
   <body class="bg-primary text-primary min-h-screen antialiased">
     <!-- Skip Link (Accessibility) -->
-    <a href="#main-content" class="skip-link"> Skip to main content </a>
-
+    <a href="#main-content" class="skip-link">
+      Skip to main content
+    </a>
+    
     <!-- App Shell -->
     <div class="app-shell">
-      <!-- Header Slot -->
-      <header class="app-header">
-        <slot name="header">
-          <Header siteTitle={siteTitle} />
-        </slot>
-      </header>
-
+      <!-- Header -->
+      <slot name="header">
+        <Header siteTitle={siteTitle} />
+      </slot>
+      
       <!-- Main Layout Grid -->
       <div class="app-body">
         <!-- Left Sidebar (Navigation) -->
-        <aside
+        <aside 
           id="left-sidebar"
           class="app-sidebar-left custom-scrollbar"
           aria-label="Site navigation"
         >
           <slot name="left-sidebar">
-            <!-- Default: Empty, populated by page -->
+            <LeftSidebar currentPath={currentPath} />
           </slot>
         </aside>
-
+        
         <!-- Main Content Area -->
         <main id="main-content" class="app-content custom-scrollbar">
           <div class="content-wrapper">
             <slot />
           </div>
         </main>
-
+        
         <!-- Right Sidebar (Table of Contents) -->
-        <aside
+        <aside 
           id="right-sidebar"
           class="app-sidebar-right custom-scrollbar"
           aria-label="Table of contents"
@@ -119,13 +127,17 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
         </aside>
       </div>
     </div>
-
+    
     <!-- Mobile Drawer Overlay -->
-    <div id="drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
-
+    <div 
+      id="drawer-overlay" 
+      class="drawer-overlay"
+      aria-hidden="true"
+    ></div>
+    
     <!-- Mobile Left Drawer -->
-    <div
-      id="left-drawer"
+    <div 
+      id="left-drawer" 
       class="drawer drawer-left custom-scrollbar"
       role="dialog"
       aria-modal="true"
@@ -133,31 +145,27 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     >
       <div class="flex items-center justify-between p-4 border-b border-border">
         <span class="font-display text-lg">Navigation</span>
-        <button
+        <button 
           type="button"
           class="theme-toggle"
           aria-label="Close navigation menu"
           data-close-drawer="left"
         >
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
       <div class="p-4">
         <slot name="mobile-nav">
-          <!-- Populated with same content as left-sidebar -->
+          <LeftSidebar currentPath={currentPath} />
         </slot>
       </div>
     </div>
-
+    
     <!-- Mobile Right Drawer (ToC) -->
-    <div
-      id="right-drawer"
+    <div 
+      id="right-drawer" 
       class="drawer drawer-right custom-scrollbar"
       role="dialog"
       aria-modal="true"
@@ -165,18 +173,14 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     >
       <div class="flex items-center justify-between p-4 border-b border-border">
         <span class="font-display text-lg">On this page</span>
-        <button
+        <button 
           type="button"
           class="theme-toggle"
           aria-label="Close table of contents"
           data-close-drawer="right"
         >
           <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
@@ -186,7 +190,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
         </slot>
       </div>
     </div>
-
+    
     <!-- Mobile Drawer Script -->
     <script>
       const overlay = document.getElementById('drawer-overlay');
@@ -195,6 +199,59 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
       const menuToggle = document.getElementById('mobile-menu-toggle');
       const tocToggle = document.getElementById('mobile-toc-toggle');
 
+      // Focus trap state
+      let focusTrapActive = false;
+      let firstFocusableElement: HTMLElement | null = null;
+      let lastFocusableElement: HTMLElement | null = null;
+
+      function getFocusableElements(container: HTMLElement): HTMLElement[] {
+        const focusableSelectors = [
+          'a[href]',
+          'button:not([disabled])',
+          'textarea:not([disabled])',
+          'input:not([disabled])',
+          'select:not([disabled])',
+          '[tabindex]:not([tabindex="-1"])'
+        ].join(',');
+
+        return Array.from(container.querySelectorAll(focusableSelectors)) as HTMLElement[];
+      }
+
+      function setupFocusTrap(drawer: HTMLElement) {
+        const focusableElements = getFocusableElements(drawer);
+        
+        if (focusableElements.length === 0) return;
+
+        firstFocusableElement = focusableElements[0];
+        lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+        focusTrapActive = true;
+      }
+
+      function handleFocusTrap(e: KeyboardEvent) {
+        if (!focusTrapActive || e.key !== 'Tab') return;
+
+        if (e.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstFocusableElement) {
+            e.preventDefault();
+            lastFocusableElement?.focus();
+          }
+        } else {
+          // Tab
+          if (document.activeElement === lastFocusableElement) {
+            e.preventDefault();
+            firstFocusableElement?.focus();
+          }
+        }
+      }
+
+      function removeFocusTrap() {
+        focusTrapActive = false;
+        firstFocusableElement = null;
+        lastFocusableElement = null;
+      }
+
       function openDrawer(drawer: HTMLElement | null, toggle: HTMLElement | null) {
         if (!drawer || !overlay) return;
 
@@ -202,6 +259,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
         overlay.classList.add('visible');
         document.body.classList.add('body-scroll-lock');
         toggle?.setAttribute('aria-expanded', 'true');
+
+        // Setup focus trap
+        setupFocusTrap(drawer);
 
         // Focus first focusable element
         const focusable = drawer.querySelector('button, a, input');
@@ -216,6 +276,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
         document.body.classList.remove('body-scroll-lock');
         toggle?.setAttribute('aria-expanded', 'false');
         toggle?.focus();
+
+        // Remove focus trap
+        removeFocusTrap();
       }
 
       function closeAllDrawers() {
@@ -258,7 +321,12 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
       // Escape key closes
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAllDrawers();
+        if (e.key === 'Escape') {
+          closeAllDrawers();
+        }
+        
+        // Handle focus trap
+        handleFocusTrap(e);
       });
     </script>
   </body>

@@ -1,60 +1,84 @@
 ---
-// home page
-// import SidebarLayout from '../layouts/SidebarLayout.astro';
-import BaseLayout from "../layouts/BaseLayout.astro"
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
-<BaseLayout {title="test"}>
-</BaseLayout>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>A Course in Mexican Spanish</title>
-  </head>
 
-  <body>
-    <h1>A Course in Mexican Spanish</h1>
-    <p class="text-white">
-      This is a course/resource for the Spanish spoken throughtout Mexico today. While this course
-      does not specifically cover all the different regional accents & dialects, it aims to provide
-      a comprehensive overview of the language. Additionally, this website/resource was created
-      primarily for my partner who is in the process of learning Spanish! I myself am currently in
-      the process of learning the Levantine dialect of Arabic (primarily the Palestinian Gaza
-      dialect) & it's been through her help that I've been able to progress & learn the language
-      from a firsthand source. This is merely a way for me to repay all she's done for me. As such I
-      hope this reaches those who are interested in learning a language for any reason whatsoever,
-      as it is through language where one & another can communicate, converse, & form relationships
-      with people from different backgrounds & cultures.
+<BaseLayout title="A Course in Mexican Spanish">
+
+  <!-- Right Sidebar: Table of Contents -->
+  <Fragment slot="right-sidebar">
+    <div>
+      <h3 class="text-sm font-bold mb-3 px-3">On This Page</h3>
+      <nav class="space-y-1">
+        <a href="#welcome" class="toc-item active" data-depth="2">Welcome</a>
+        <a href="#getting-started" class="toc-item" data-depth="2">Getting Started</a>
+        <a href="#features" class="toc-item" data-depth="2">Features</a>
+      </nav>
+    </div>
+  </Fragment>
+
+  <!-- Mobile Nav (same as left-sidebar) -->
+  <Fragment slot="mobile-nav">
+    <div>
+      <h2 class="text-lg font-bold mb-4">Navigation</h2>
+      <nav class="space-y-1">
+        <a href="#" class="nav-item active">Lesson 1: Greetings</a>
+        <a href="#" class="nav-item">Lesson 2: At the Market</a>
+        <a href="#" class="nav-item">Lesson 3: Family</a>
+        <a href="#" class="nav-item">Lesson 4: Numbers</a>
+      </nav>
+    </div>
+  </Fragment>
+
+  <!-- Mobile ToC (same as right-sidebar) -->
+  <Fragment slot="mobile-toc">
+    <div>
+      <h3 class="text-sm font-bold mb-3">On This Page</h3>
+      <nav class="space-y-1">
+        <a href="#welcome" class="toc-item active" data-depth="2">Welcome</a>
+        <a href="#getting-started" class="toc-item" data-depth="2">Getting Started</a>
+        <a href="#features" class="toc-item" data-depth="2">Features</a>
+      </nav>
+    </div>
+  </Fragment>
+
+  <!-- Main Content -->
+  <article class="prose">
+    <h1 id="welcome">Welcome to Mexican Spanish</h1>
+    <p>
+      This is a test page to verify the BaseLayout is working correctly. You should see a
+      three-column layout on desktop and mobile drawers on smaller screens.
     </p>
-  </body>
-</html>
 
-<!-- <SidebarLayout title="A Course in Mexican Spanish">
-  <div class="max-w-4xl">
-    <h1 class="text-4xl font-bold text-zinc-900 dark:text-zinc-100 mb-4">
-      A Course in Mexican Spanish Text
-    </h1>
+    <h2 id="getting-started">Getting Started</h2>
+    <p>
+      On desktop (≥1024px), you'll see the left navigation sidebar, this main content area, and the
+      table of contents on the right.
+    </p>
 
-    <section class="mb-12">
-      <h2 class="text-2xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
-        About This Course
-      </h2>
-      <div class="prose prose-zinc dark:prose-invert max-w-none">
-        <p class="text-white">
-          This is a course/resource for the Spanish spoken throughtout Mexico today. While this
-          course does not specifically cover all the different regional accents & dialects, it aims
-          to provide a comprehensive overview of the language. Additionally, this website/resource
-          was created primarily for my partner who is in the process of learning Spanish! I myself
-          am currently in the process of learning the Levantine dialect of Arabic (primarily the
-          Palestinian Gaza dialect) & it's been through her help that I've been able to progress &
-          learn the language from a firsthand source. This is merely a way for me to repay all she's
-          done for me. As such I hope this reaches those who are interested in learning language for
-          any reason whatsoever, as it is through language where one & another can communicate,
-          converse, & form relationships with people from different backgrounds & cultures.
-        </p>
+    <p>
+      On mobile (<Fragment
+        >1024px), click the hamburger menu (☰) to open navigation, or the list icon to open the
+        table of contents.
+      </Fragment>
+
+      <h2 id="features">Features to Test</h2>
+      <ul>
+        <li>Responsive grid layout</li>
+        <li>Mobile drawer overlays</li>
+        <li>Header with logo and toggles</li>
+        <li>Custom scrollbars</li>
+        <li>Typography and spacing</li>
+      </ul>
+
+      <div class="callout">
+        <div class="callout-title">Test Callout</div>
+        <p>This callout box should have a red left border and light pink background.</p>
       </div>
-    </section>
-  </div>
-</SidebarLayout> -->
+
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua. Ut enim ad minim veniam.
+      </p>
+    </p>
+  </article></BaseLayout
+>
