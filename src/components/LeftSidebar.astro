@@ -77,7 +77,7 @@ const lessonsBySection = allLessons
     </div>
 
     <!-- Navigation -->
-    <nav class="sidebar-nav p-4 pt-2" aria-label="Main navigation">
+    <nav class="sidebar-nav custom-scrollbar p-4 pt-2" aria-label="Main navigation">
       <!-- Static Top Links -->
       <div class="mb-4 space-y-1">
         <a
@@ -168,14 +168,44 @@ const lessonsBySection = allLessons
 <script is:inline>
   // Run immediately to prevent flash - before CSS paints
   (function() {
-    const STORAGE_KEY = 'sidebar-collapsed-sections';
+    const COLLAPSED_KEY = 'sidebar-collapsed-sections';
+    const WIDTH_KEY = 'sidebar-width';
     
     function getCollapsedSections() {
       try {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        const stored = localStorage.getItem(COLLAPSED_KEY);
         return stored ? JSON.parse(stored) : [];
       } catch {
         return [];
+      }
+    }
+    
+    // Restore sidebar width immediately (desktop only)
+    if (window.innerWidth >= 1024) {
+      const storedWidth = localStorage.getItem(WIDTH_KEY);
+      if (storedWidth) {
+        const sidebar = document.getElementById('left-sidebar');
+        const gridContainer = document.querySelector('.app-body');
+        if (sidebar && gridContainer) {
+          const width = parseInt(storedWidth, 10);
+          // Apply without transition
+          sidebar.style.transition = 'none';
+          gridContainer.style.transition = 'none';
+          sidebar.style.width = width + 'px';
+          
+          // Get ToC width for grid
+          const tocWidth = getComputedStyle(document.documentElement)
+            .getPropertyValue('--toc-width').trim() || '200px';
+          gridContainer.style.gridTemplateColumns = width + 'px 1fr ' + tocWidth;
+          
+          // Re-enable transitions after paint
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              sidebar.style.transition = '';
+              gridContainer.style.transition = '';
+            });
+          });
+        }
       }
     }
     
@@ -276,5 +306,10 @@ const lessonsBySection = allLessons
     font-weight: 600;
     padding: 0 0.125rem;
     border-radius: 0.125rem;
+  }
+
+  /* Dark mode divider visibility */
+  :global(.dark) .bg-border {
+    background-color: var(--color-text-tertiary) !important;
   }
 </style>

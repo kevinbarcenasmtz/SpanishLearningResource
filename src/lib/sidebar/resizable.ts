@@ -6,7 +6,14 @@
 
 import { STORAGE_KEYS } from './storage';
 
+let isInitialized = false;
+
 export function initResizable(): void {
+  // Prevent double initialization on same page
+  if (isInitialized && document.getElementById('left-sidebar-container')) {
+    return;
+  }
+
   const container = document.getElementById('left-sidebar-container') as HTMLElement;
   const handle = container?.querySelector('.resize-handle') as HTMLElement;
 
@@ -17,6 +24,10 @@ export function initResizable(): void {
   const gridContainer = document.querySelector('.app-body') as HTMLElement;
 
   if (!container || !handle || !sidebar || !gridContainer) return;
+
+  // IMPORTANT: Disable transitions during initialization to prevent flash
+  sidebar.style.transition = 'none';
+  gridContainer.style.transition = 'none';
 
   // Clear any existing inline grid styles on mobile/tablet to let CSS media queries work
   if (window.innerWidth < 1024) {
@@ -42,6 +53,16 @@ export function initResizable(): void {
     }
   }
 
+  // Re-enable transitions after a frame (allows initial render without animation)
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      sidebar.style.transition = '';
+      gridContainer.style.transition = '';
+    });
+  });
+
+  isInitialized = true;
+
   let isResizing = false;
   let startX = 0;
   let startWidth = 0;
@@ -52,6 +73,10 @@ export function initResizable(): void {
     startWidth = sidebar.offsetWidth;
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
+    
+    // Enable smooth resize during drag (only on grid, sidebar follows directly)
+    gridContainer.style.transition = 'grid-template-columns 0.05s ease-out';
+    
     e.preventDefault();
   });
 
@@ -83,6 +108,9 @@ export function initResizable(): void {
       isResizing = false;
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
+      
+      // Remove transition after resize
+      gridContainer.style.transition = '';
 
       // Save to localStorage
       localStorage.setItem(STORAGE_KEYS.width, sidebar.offsetWidth.toString());
@@ -122,5 +150,12 @@ function updateGridColumns(gridContainer: HTMLElement, sidebarWidth: number): vo
 
   // Update grid template columns: sidebar | content (1fr) | toc
   gridContainer.style.gridTemplateColumns = `${sidebarWidth}px 1fr ${tocWidth}`;
+}
+
+// Reset on Astro navigation
+if (typeof document !== 'undefined') {
+  document.addEventListener('astro:before-swap', () => {
+    isInitialized = false;
+  });
 }
 

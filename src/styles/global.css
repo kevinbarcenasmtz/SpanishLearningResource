@@ -299,6 +299,19 @@
     background-color: var(--color-text-tertiary);
   }
 
+  /* Dark mode scrollbar - use more visible color */
+  .dark .custom-scrollbar {
+    scrollbar-color: var(--color-text-tertiary) transparent;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--color-text-tertiary);
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-text-secondary);
+  }
+
   /* --------------------------------------------
         Nav Item States
         -------------------------------------------- */
@@ -676,7 +689,7 @@
     grid-template-areas: 'content';
     min-height: 0;
     overflow: hidden;
-    transition: grid-template-columns var(--transition-sidebar);
+    /* REMOVED: transition causes flash during init - transition added only during drag in resizable.ts */
   }
 
   /* Tablet (640-1024px): Sidebar HIDDEN by default */

@@ -11,12 +11,25 @@
 import { collapseCurrentSection, expandCurrentSection } from './collapsible';
 
 let currentFocusedItem: HTMLElement | null = null;
+let globalKeydownHandler: ((e: KeyboardEvent) => void) | null = null;
+let navKeydownHandler: ((e: KeyboardEvent) => void) | null = null;
+let currentNav: Element | null = null;
 
 export function initKeyboardNavigation(searchInputId: string = 'sidebar-search'): void {
   const searchInput = document.getElementById(searchInputId) as HTMLInputElement;
   const nav = searchInput?.closest('.sidebar-content')?.querySelector('.sidebar-nav');
   
   if (!nav) return;
+
+  // Remove previous listeners if they exist (prevents duplicates on navigation)
+  if (globalKeydownHandler) {
+    document.removeEventListener('keydown', globalKeydownHandler);
+  }
+  if (navKeydownHandler && currentNav) {
+    currentNav.removeEventListener('keydown', navKeydownHandler as EventListener);
+  }
+
+  currentNav = nav;
 
   // Set up roving tabindex - only active item or first item is tabbable
   const items = getVisibleNavItems(nav);
@@ -34,11 +47,13 @@ export function initKeyboardNavigation(searchInputId: string = 'sidebar-search')
     currentFocusedItem = items[0];
   }
 
-  // Global "/" shortcut to focus search
-  document.addEventListener('keydown', handleGlobalKeydown);
-  
-  // Navigation keydown handler
-  nav.addEventListener('keydown', handleNavKeydown);
+  // Create and store handlers
+  globalKeydownHandler = handleGlobalKeydown;
+  navKeydownHandler = handleNavKeydown;
+
+  // Add listeners
+  document.addEventListener('keydown', globalKeydownHandler);
+  nav.addEventListener('keydown', navKeydownHandler as EventListener);
 }
 
 function handleGlobalKeydown(e: KeyboardEvent): void {
@@ -54,41 +69,51 @@ function handleGlobalKeydown(e: KeyboardEvent): void {
   }
 }
 
+function handleSectionHeaderKeydown(e: KeyboardEvent, target: HTMLElement): void {
+  const section = target.closest('.nav-section');
+  
+  if (e.key === 'ArrowRight' && section && !section.classList.contains('expanded')) {
+    e.preventDefault();
+    target.click();
+  } else if (e.key === 'ArrowLeft' && section && section.classList.contains('expanded')) {
+    e.preventDefault();
+    target.click();
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (section?.classList.contains('expanded')) {
+      const firstItem = section.querySelector('.nav-item') as HTMLElement;
+      if (firstItem) {
+        setFocusedItem(firstItem);
+        return;
+      }
+    }
+    const allHeaders = Array.from(document.querySelectorAll('.nav-section-header')) as HTMLElement[];
+    const currentIndex = allHeaders.indexOf(target);
+    if (currentIndex < allHeaders.length - 1) {
+      allHeaders[currentIndex + 1].focus();
+    }
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    const allHeaders = Array.from(document.querySelectorAll('.nav-section-header')) as HTMLElement[];
+    const currentIndex = allHeaders.indexOf(target);
+    if (currentIndex > 0) {
+      allHeaders[currentIndex - 1].focus();
+    } else {
+      // Move to last static link before sections
+      const nav = target.closest('.sidebar-nav');
+      const staticLinks = nav?.querySelectorAll(':scope > div:first-child .nav-item');
+      const lastStatic = staticLinks?.[staticLinks.length - 1] as HTMLElement;
+      if (lastStatic) setFocusedItem(lastStatic);
+    }
+  }
+}
+
 function handleNavKeydown(e: KeyboardEvent): void {
   const target = e.target as HTMLElement;
   
   // Handle section header keyboard interaction
   if (target.classList.contains('nav-section-header')) {
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      const section = target.closest('.nav-section');
-      if (section && !section.classList.contains('expanded')) {
-        target.click(); // Expand
-      }
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      const section = target.closest('.nav-section');
-      if (section && section.classList.contains('expanded')) {
-        target.click(); // Collapse
-      }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      // Move to first item in section if expanded, or next section header
-      const section = target.closest('.nav-section');
-      if (section?.classList.contains('expanded')) {
-        const firstItem = section.querySelector('.nav-item') as HTMLElement;
-        if (firstItem) {
-          setFocusedItem(firstItem);
-          return;
-        }
-      }
-      // Move to next section header
-      const allHeaders = Array.from(document.querySelectorAll('.nav-section-header')) as HTMLElement[];
-      const currentIndex = allHeaders.indexOf(target);
-      if (currentIndex < allHeaders.length - 1) {
-        allHeaders[currentIndex + 1].focus();
-      }
-    }
+    handleSectionHeaderKeydown(e, target);
     return;
   }
   
@@ -157,9 +182,20 @@ function handleNavKeydown(e: KeyboardEvent): void {
 }
 
 function getVisibleNavItems(container: Element): HTMLElement[] {
-  return Array.from(
-    container.querySelectorAll('.nav-section.expanded .nav-item:not(.hidden)')
+  // Get ALL nav items, not just those in expanded sections
+  // This includes static links (Home, About) and section items
+  const allItems = Array.from(
+    container.querySelectorAll('[data-nav-item]:not(.hidden)')
   ) as HTMLElement[];
+  
+  // Filter to only include items that are visible (not in collapsed sections)
+  return allItems.filter((item) => {
+    const section = item.closest('.nav-section');
+    // If not in a section (static links), always include
+    if (!section) return true;
+    // If in a section, only include if section is expanded
+    return section.classList.contains('expanded');
+  });
 }
 
 function setFocusedItem(item: HTMLElement): void {
