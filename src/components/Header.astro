@@ -6,11 +6,9 @@
  * - Mobile (<640px): hamburger menu (left) + ToC toggle (right)
  * - Tablet (640-1024px): sidebar toggle (left) + ToC toggle (right)
  * - Desktop (>1024px): sidebar toggle (left) + logo (center)
- *
- * Logo uses rótulo styling in both light and dark modes
  */
 
-interface Props {
+ interface Props {
   siteTitle?: string;
 }
 
@@ -63,11 +61,9 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
     </div>
 
     <a href="/" class="header-logo">
-      <!-- Full title (tablet+) - Rótulo style in both modes -->
-      <div class="logo-text-wrapper tablet-desktop-only">
-        <span class="logo-text">{siteTitle}</span>
-      </div>
-      <!-- Short title (mobile) - Rótulo style -->
+      <!-- Full title (tablet+) -->
+      <span class="logo-text tablet-desktop-only">{siteTitle}</span>
+      <!-- Short title (mobile) -->
       <span class="logo-text-short mobile-only">Mexican Spanish</span>
     </a>
 
@@ -147,34 +143,28 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
     text-decoration: none;
   }
 
-  .logo-text-wrapper {
-    display: flex;
-    align-items: center;
-  }
-
-  /* Rótulo-style logo text */
+  /* Logo text - Rótulo styling */
   .logo-text,
   .logo-text-short {
     font-family: var(--font-display);
-    line-height: 1.1;
-    /* Light mode: Red text with yellow shadow going down-left */
-    background-image: linear-gradient(0deg, #c50300, #ea0400);
+    /* Light mode - Red→Coral gradient with orange stroke and golden shadow */
+    background-image: linear-gradient(0deg, #c50300, #fc8568);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    -webkit-text-stroke: 0.02rem #8b0000;
-    filter: drop-shadow(-0.1rem 0.1rem 0 #f8d103);
+    -webkit-text-stroke: 0.025rem #e85a0e;
+    filter: drop-shadow(-0.11rem 0.11rem 0 #ffd500);
   }
 
   .logo-text {
-    font-size: 2.5rem;
+    font-size: 3.0rem;
   }
 
   .logo-text-short {
     font-size: 1.125rem;
   }
 
-  /* Dark mode: Red→Yellow gradient with cream stroke and cyan shadow (bottom-left) */
+  /* Dark mode - Red→Yellow gradient with cream stroke and cyan shadow */
   :global(.dark) .logo-text,
   :global(.dark) .logo-text-short {
     background-image: linear-gradient(0deg, #ff1101, #ffea07);

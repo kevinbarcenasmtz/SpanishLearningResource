@@ -6,53 +6,53 @@
 @import 'tailwindcss';
 
 /* ==========================================================================
-            Theme Configuration (Design Tokens)
-            ========================================================================== */
+               Theme Configuration (Design Tokens)
+               ========================================================================== */
 
 @theme {
   /* --------------------------------------------
-              Color System - Light Mode (Default)
-              Rótulo-inspired: cream background, red/yellow accents
-              -------------------------------------------- */
-  --color-bg-primary: #fef5cc;
-  --color-bg-secondary: #fdf0b8;
-  --color-bg-tertiary: #fceba3;
+                 Color System - Light Mode (Default)
+                 Rótulo-inspired: floral white background, red-coral/golden accents
+                 -------------------------------------------- */
+  --color-bg-primary: #fffaf0;
+  --color-bg-secondary: #fff5e6;
+  --color-bg-tertiary: #ffefdb;
 
-  --color-text-primary: #111827;
-  --color-text-secondary: #6b7280;
-  --color-text-tertiary: #9ca3af;
+  --color-text-primary: #1c1917;
+  --color-text-secondary: #57534e;
+  --color-text-tertiary: #a8a29e;
 
-  --color-border: #e5d89a;
+  --color-border: #e7e0d5;
 
-  --color-accent: #ea0400;
-  --color-accent-hover: #c50300;
-  --color-accent-bg: #fef2f2;
+  --color-accent: #c50300;
+  --color-accent-hover: #a30200;
+  --color-accent-bg: #fff1f0;
 
   /* --------------------------------------------
-              Typography Scale (Fluid)
-              Based on: Hero 48-64px/36-40px, h1 36-40px/28-32px, h2 28-32px/22-26px,
-                        h3 20-24px/18-20px, h4 18px/16px, Body 16-18px/16px,
-                        Small 14px/13px, Nav 14-15px/14px
-              -------------------------------------------- */
+                 Typography Scale (Fluid)
+                 Based on: Hero 48-64px/36-40px, h1 36-40px/28-32px, h2 28-32px/22-26px,
+                           h3 20-24px/18-20px, h4 18px/16px, Body 16-18px/16px,
+                           Small 14px/13px, Nav 14-15px/14px
+                 -------------------------------------------- */
   --text-hero: clamp(2.25rem, 3.5vw, 4rem); /* 36-40px mobile, 48-64px desktop */
-  --text-h1: clamp(1.85rem, 2.5vw, 3.0rem); /* 28-32px mobile, 36-40px desktop */
-  --text-h2: clamp(1.375rem, 2vw, 3.0rem); /* 22-26px mobile, 28-32px desktop */
-  --text-h3: clamp(1.125rem, 1.5vw, 3.0rem); /* 18-20px mobile, 20-24px desktop */
+  --text-h1: clamp(1.85rem, 2.5vw, 3rem); /* 28-32px mobile, 36-40px desktop */
+  --text-h2: clamp(1.375rem, 2vw, 3rem); /* 22-26px mobile, 28-32px desktop */
+  --text-h3: clamp(1.125rem, 1.5vw, 3rem); /* 18-20px mobile, 20-24px desktop */
   --text-h4: clamp(1rem, 1vw, 1.125rem); /* 16px mobile, 18px desktop */
   --text-body: clamp(1rem, 1.125vw, 1.125rem); /* 16px mobile, 16-18px desktop */
   --text-small: clamp(0.8125rem, 0.875vw, 0.875rem); /* 13px mobile, 14px desktop */
   --text-nav: clamp(0.875rem, 0.9375vw, 0.9375rem); /* 14px mobile, 14-15px desktop */
 
   /* --------------------------------------------
-              Font Families
-              -------------------------------------------- */
+                 Font Families
+                 -------------------------------------------- */
   --font-display: 'Chilanga', cursive, system-ui;
   --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* --------------------------------------------
-              Spacing & Layout
-              -------------------------------------------- */
+                 Spacing & Layout
+                 -------------------------------------------- */
   --header-height: 60px;
   --header-height-mobile: 56px;
   --sidebar-width-min: 180px;
@@ -62,15 +62,15 @@
   --content-max-width: 75ch;
 
   /* --------------------------------------------
-              Transitions
-              -------------------------------------------- */
+                 Transitions
+                 -------------------------------------------- */
   --transition-fast: 0.15s ease;
   --transition-base: 0.2s ease;
   --transition-sidebar: 0.26s ease-out;
 
   /* --------------------------------------------
-              Z-Index Scale
-              -------------------------------------------- */
+                 Z-Index Scale
+                 -------------------------------------------- */
   --z-sidebar: 40;
   --z-header: 50;
   --z-drawer: 60;
@@ -79,8 +79,8 @@
 }
 
 /* ==========================================================================
-            Font Face Declarations
-            ========================================================================== */
+               Font Face Declarations
+               ========================================================================== */
 
 @font-face {
   font-family: 'Chilanga';
@@ -106,9 +106,9 @@
 /* Bebas Neue font is loaded via Google Fonts in BaseLayout */
 
 /* ==========================================================================
-            Dark Mode Colors - Rótulo Theme
-            Red→Yellow text, cream stroke, cyan shadow
-            ========================================================================== */
+               Dark Mode Colors - Rótulo Theme
+               Red→Yellow text, cream stroke, cyan shadow
+               ========================================================================== */
 
 .dark {
   --color-bg-primary: #292524; /* Dark stone gray */
@@ -127,10 +127,10 @@
 }
 
 /* ==========================================================================
-            Rótulo Styles - Traditional Mexican Sign Painting
-            Light mode: Cream bg, red text, yellow shadow (down-left)
-            Dark mode: Dark gray bg, red→yellow text, cream stroke, cyan shadow (down-left)
-            ========================================================================== */
+               Rótulo Styles - Traditional Mexican Sign Painting
+               Light mode: Floral white bg, red→coral text, orange stroke, golden shadow
+               Dark mode: Dark gray bg, red→yellow text, cream stroke, cyan shadow
+               ========================================================================== */
 
 /* Two-line base styles */
 .two-line {
@@ -161,20 +161,20 @@
   display: block;
 }
 
-/* Light mode - Red text with yellow shadow going down-left */
+/* Light mode - Red→Coral gradient with orange stroke and golden shadow */
 .two-line-top {
-  background-image: linear-gradient(0deg, #c50300, #ea0400);
-  -webkit-text-stroke: 0.03rem #8b0000;
-  filter: drop-shadow(-0.15rem 0.15rem 0 #f8d103);
+  background-image: linear-gradient(0deg, #c50300, #fc8568);
+  -webkit-text-stroke: 0.025rem #e85a0e;
+  filter: drop-shadow(-0.11rem 0.11rem 0 #ffd500);
 }
 
 .two-line-bottom {
-  background-image: linear-gradient(0deg, #c50300, #ea0400);
-  -webkit-text-stroke: 0.03rem #8b0000;
-  filter: drop-shadow(-0.2rem 0.2rem 0 #f8d103);
+  background-image: linear-gradient(0deg, #c50300, #fc8568);
+  -webkit-text-stroke: 0.025rem #e85a0e;
+  filter: drop-shadow(-0.14rem 0.14rem 0 #ffd500);
 }
 
-/* Dark mode - Red→Yellow gradient with cream stroke and cyan shadow (bottom-left) */
+/* Dark mode - Red→Yellow gradient with cream stroke and cyan shadow */
 .dark .two-line-top {
   background-image: linear-gradient(0deg, #ff1101, #ffea07);
   -webkit-text-stroke: 0.03rem #f7efd1;
@@ -188,8 +188,8 @@
 }
 
 /* ==========================================================================
-            Base Layer
-            ========================================================================== */
+               Base Layer
+               ========================================================================== */
 
 @layer base {
   html {
@@ -220,18 +220,18 @@
     font-size: var(--text-h1);
   }
 
-  /* Light mode - Red text with yellow shadow going down-left (rótulo style) */
+  /* Light mode - Red→Coral gradient with orange stroke and golden shadow */
   h1,
   h2 {
-    background-image: linear-gradient(0deg, #c50300, #ea0400);
+    background-image: linear-gradient(0deg, #c50300, #fc8568);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    -webkit-text-stroke: 0.03rem #8b0000;
-    filter: drop-shadow(-0.15rem 0.15rem 0 #f8d103);
+    -webkit-text-stroke: 0.025rem #e85a0e;
+    filter: drop-shadow(-0.11rem 0.11rem 0 #ffd500);
   }
 
-  /* Dark mode - Red→Yellow gradient with cream stroke and cyan shadow (bottom-left) */
+  /* Dark mode - Red→Yellow gradient with cream stroke and cyan shadow */
   .dark h1,
   .dark h2 {
     background-image: linear-gradient(0deg, #ff1101, #ffea07);
@@ -276,13 +276,13 @@
 }
 
 /* ==========================================================================
-            Component Layer
-            ========================================================================== */
+               Component Layer
+               ========================================================================== */
 
 @layer components {
   /* --------------------------------------------
-              Skip Link (Accessibility)
-              -------------------------------------------- */
+                 Skip Link (Accessibility)
+                 -------------------------------------------- */
   .skip-link {
     position: absolute;
     top: -100%;
@@ -303,8 +303,8 @@
   }
 
   /* --------------------------------------------
-              Custom Scrollbar
-              -------------------------------------------- */
+                 Custom Scrollbar
+                 -------------------------------------------- */
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
@@ -341,8 +341,8 @@
   }
 
   /* --------------------------------------------
-              Nav Item States
-              -------------------------------------------- */
+                 Nav Item States
+                 -------------------------------------------- */
   .nav-item {
     display: flex;
     align-items: center;
@@ -365,12 +365,12 @@
     text-decoration: none;
   }
 
-  /* Keyboard focus - works with both browser and programmatic focus */
+  /* Keyboard focus - red/orange accent matching rótulo */
   .nav-item:focus,
   .nav-item:focus-visible,
   .nav-item[data-focused='true'] {
-    background-color: rgba(234, 4, 0, 0.15) !important;
-    border-left-color: #ea0400 !important;
+    background-color: rgba(197, 3, 0, 0.1) !important;
+    border-left-color: #c50300 !important;
     color: var(--color-text-primary) !important;
     outline: none;
   }
@@ -386,8 +386,8 @@
   .nav-item.active:focus,
   .nav-item.active:focus-visible,
   .nav-item.active[data-focused='true'] {
-    background-color: rgba(234, 4, 0, 0.25) !important;
-    border-left-color: #ea0400 !important;
+    background-color: rgba(197, 3, 0, 0.15) !important;
+    border-left-color: #c50300 !important;
   }
 
   /* Dark mode - cyan accent for focus */
@@ -406,8 +406,8 @@
   }
 
   /* --------------------------------------------
-              Prose / Content Area
-              -------------------------------------------- */
+                 Prose / Content Area
+                 -------------------------------------------- */
   .prose {
     line-height: 1.7;
   }
@@ -486,8 +486,8 @@
   }
 
   /* --------------------------------------------
-              IPA Transcriptions
-              -------------------------------------------- */
+                 IPA Transcriptions
+                 -------------------------------------------- */
   .ipa {
     font-family: var(--font-mono);
     font-size: 0.95em;
@@ -498,25 +498,35 @@
   }
 
   /* --------------------------------------------
-              Cultural Notes Callout
-              -------------------------------------------- */
+                 Cultural Notes Callout
+                 -------------------------------------------- */
   .callout {
     padding: 1rem 1.25rem;
     margin: 1.5rem 0;
-    border-left: 4px solid var(--color-accent);
-    background-color: var(--color-accent-bg);
+    border-left: 4px solid #e85a0e; /* Orange accent matching stroke */
+    background-color: #fff8f0; /* Warm light background */
     border-radius: 0 0.375rem 0.375rem 0;
   }
 
   .callout-title {
     font-weight: 700;
-    color: var(--color-accent);
+    color: #c50300; /* Red accent */
     margin-bottom: 0.5rem;
   }
 
+  /* Dark mode callout */
+  .dark .callout {
+    border-left-color: #0c90cd;
+    background-color: rgba(12, 144, 205, 0.1);
+  }
+
+  .dark .callout-title {
+    color: #0c90cd;
+  }
+
   /* --------------------------------------------
-              Collapsible Drill Answers
-              -------------------------------------------- */
+                 Collapsible Drill Answers
+                 -------------------------------------------- */
   details.drill {
     margin: 1rem 0;
     border: 1px solid var(--color-border);
@@ -546,8 +556,8 @@
   }
 
   /* --------------------------------------------
-              Vocabulary Cards
-              -------------------------------------------- */
+                 Vocabulary Cards
+                 -------------------------------------------- */
   .vocab-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -589,8 +599,8 @@
   }
 
   /* --------------------------------------------
-              Mobile Drawer Overlay
-              -------------------------------------------- */
+                 Mobile Drawer Overlay
+                 -------------------------------------------- */
   .drawer-overlay {
     position: fixed;
     inset: 0;
@@ -639,8 +649,8 @@
   }
 
   /* --------------------------------------------
-              Theme Toggle Button
-              -------------------------------------------- */
+                 Theme Toggle Button
+                 -------------------------------------------- */
   .theme-toggle {
     display: flex;
     align-items: center;
@@ -663,8 +673,8 @@
   }
 
   /* --------------------------------------------
-              Search Input
-              -------------------------------------------- */
+                 Search Input
+                 -------------------------------------------- */
   .search-input {
     width: 100%;
     padding: 0.625rem 0.75rem 0.625rem 2.5rem;
@@ -684,18 +694,19 @@
 
   .search-input:focus {
     outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px var(--color-accent-bg);
+    border-color: #e85a0e; /* Orange accent */
+    box-shadow: 0 0 0 3px rgba(232, 90, 14, 0.15);
   }
 
-  /* Dark mode: More visible focus ring */
+  /* Dark mode: Cyan focus ring */
   .dark .search-input:focus {
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+    border-color: #0c90cd;
+    box-shadow: 0 0 0 3px rgba(12, 144, 205, 0.2);
   }
 
   /* ==========================================================================
-              App Shell Layout
-              ========================================================================== */
+                 App Shell Layout
+                 ========================================================================== */
 
   .app-shell {
     display: flex;
@@ -708,8 +719,8 @@
   }
 
   /* --------------------------------------------
-              Header
-              -------------------------------------------- */
+                 Header
+                 -------------------------------------------- */
   .app-header {
     flex-shrink: 0;
     height: var(--header-height-mobile);
@@ -725,8 +736,8 @@
   }
 
   /* --------------------------------------------
-              Main Body Grid
-              -------------------------------------------- */
+                 Main Body Grid
+                 -------------------------------------------- */
   .app-body {
     flex: 1;
     display: grid;
@@ -765,8 +776,8 @@
   }
 
   /* --------------------------------------------
-              Left Sidebar
-              -------------------------------------------- */
+                 Left Sidebar
+                 -------------------------------------------- */
   .app-sidebar-left {
     grid-area: left;
     display: none;
@@ -822,8 +833,8 @@
   }
 
   /* --------------------------------------------
-              Main Content
-              -------------------------------------------- */
+                 Main Content
+                 -------------------------------------------- */
   .app-content {
     grid-area: content;
     overflow-y: auto;
@@ -850,8 +861,8 @@
   }
 
   /* --------------------------------------------
-              Right Sidebar (ToC)
-              -------------------------------------------- */
+                 Right Sidebar (ToC)
+                 -------------------------------------------- */
   .app-sidebar-right {
     grid-area: right;
     display: none;
@@ -871,8 +882,8 @@
   }
 
   /* --------------------------------------------
-              Sidebar Toggle Button Icons
-              -------------------------------------------- */
+                 Sidebar Toggle Button Icons
+                 -------------------------------------------- */
   .sidebar-icon-closed {
     display: none;
   }
@@ -887,8 +898,8 @@
 }
 
 /* ==========================================================================
-            Utility Layer
-            ========================================================================== */
+               Utility Layer
+               ========================================================================== */
 
 @layer utilities {
   .font-display {
@@ -937,23 +948,23 @@
     background-color: var(--color-border);
   }
 
-  /* Rótulo Background - Light mode cream */
+  /* Rótulo Background - Light mode floral white */
   .bg-rotulo {
-    background: #fef5cc;
+    background: #fffaf0;
   }
 
   .dark .bg-rotulo {
     background: #292524; /* Dark stone gray for dark mode */
   }
 
-  /* Rótulo Text Style - Red with yellow shadow (light mode) */
+  /* Rótulo Text Style - Red→Coral with orange stroke, golden shadow (light mode) */
   .style-rotulo {
-    background-image: linear-gradient(0deg, #c50300, #ea0400);
+    background-image: linear-gradient(0deg, #c50300, #fc8568);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    -webkit-text-stroke: 0.03rem #8b0000;
-    filter: drop-shadow(-0.15rem 0.15rem 0 #f8d103);
+    -webkit-text-stroke: 0.025rem #e85a0e;
+    filter: drop-shadow(-0.11rem 0.11rem 0 #ffd500);
   }
 
   /* Rótulo Text Style - Dark mode: Red→Yellow with cream stroke, cyan shadow */
@@ -963,14 +974,14 @@
     filter: drop-shadow(-0.1rem 0.1rem 0 #0c90cd);
   }
 
-  /* Golden/Yellow accent text (like "EL" and "SIEMPRE" in the image) */
+  /* Golden/Yellow accent text */
   .style-rotulo-gold {
-    background-image: linear-gradient(0deg, #d4a700, #f8d103);
+    background-image: linear-gradient(0deg, #d4a700, #ffd500);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    -webkit-text-stroke: 0.03rem #8b6914;
-    filter: drop-shadow(-0.1rem 0.1rem 0 #ea0400);
+    -webkit-text-stroke: 0.025rem #b8860b;
+    filter: drop-shadow(-0.1rem 0.1rem 0 #c50300);
   }
 
   .body-scroll-lock {
