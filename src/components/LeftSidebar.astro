@@ -84,6 +84,7 @@ const lessonsBySection = allLessons
           href={staticPages.home.href}
           class:list={['nav-item', { active: currentPath === '/' }]}
           data-nav-item
+          tabindex={currentPath === '/' ? 0 : -1}
         >
           {staticPages.home.title}
         </a>
@@ -91,6 +92,7 @@ const lessonsBySection = allLessons
           href={staticPages.about.href}
           class:list={['nav-item', { active: currentPath === '/about' }]}
           data-nav-item
+          tabindex={currentPath === '/about' ? 0 : -1}
         >
           {staticPages.about.title}
         </a>
@@ -311,5 +313,30 @@ const lessonsBySection = allLessons
   /* Dark mode divider visibility */
   :global(.dark) .bg-border {
     background-color: var(--color-text-tertiary) !important;
+  }
+
+  /* Focus states for static links */
+  /* :focus works with :global(), JS-added data-focused also needs :global() */
+  :global(.nav-item):focus {
+    background-color: rgba(220, 38, 38, 0.15) !important;
+    box-shadow: inset 0 0 0 2px #dc2626 !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  /* JS-added attribute - use :global() for entire selector */
+  :global(.nav-item[data-focused="true"]) {
+    background-color: rgba(220, 38, 38, 0.15) !important;
+    box-shadow: inset 0 0 0 2px #dc2626 !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  :global(.dark .nav-item):focus {
+    background-color: rgba(248, 113, 113, 0.2) !important;
+    box-shadow: inset 0 0 0 2px #f87171 !important;
+  }
+
+  :global(.dark .nav-item[data-focused="true"]) {
+    background-color: rgba(248, 113, 113, 0.2) !important;
+    box-shadow: inset 0 0 0 2px #f87171 !important;
   }
 </style>

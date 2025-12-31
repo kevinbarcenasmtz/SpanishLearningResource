@@ -240,8 +240,8 @@
     text-decoration: underline;
   }
 
-  /* Focus styles */
-  :focus-visible {
+  /* Focus styles - but nav items have their own styles */
+  :focus-visible:not(.nav-item):not([data-nav-item]) {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
   }
@@ -325,11 +325,10 @@
     font-weight: 400;
     color: var(--color-text-secondary);
     text-decoration: none;
-    transition: 
-      background-color 0.15s ease,
-      color 0.15s ease,
-      box-shadow 0.15s ease;
+    transition: all 0.15s ease;
     position: relative;
+    border-left: 3px solid transparent;
+    margin-left: -3px;
   }
 
   .nav-item:hover {
@@ -338,15 +337,17 @@
     text-decoration: none;
   }
 
-  /* Keyboard focus - more prominent than hover */
-  .nav-item:focus-visible {
+  /* Keyboard focus - works with both browser and programmatic focus */
+  .nav-item:focus,
+  .nav-item:focus-visible,
+  .nav-item[data-focused='true'] {
+    background-color: rgba(220, 38, 38, 0.15) !important;
+    border-left-color: #dc2626 !important;
+    color: var(--color-text-primary) !important;
     outline: none;
-    background-color: var(--color-bg-tertiary);
-    box-shadow: inset 0 0 0 2px var(--color-accent);
-    color: var(--color-text-primary);
   }
 
-  /* Active page indicator - subtle accent */
+  /* Active page */
   .nav-item.active {
     background-color: var(--color-accent-bg);
     color: var(--color-accent);
@@ -354,14 +355,26 @@
   }
 
   /* Active + focused */
-  .nav-item.active:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--color-accent);
+  .nav-item.active:focus,
+  .nav-item.active:focus-visible,
+  .nav-item.active[data-focused='true'] {
+    background-color: rgba(220, 38, 38, 0.25) !important;
+    border-left-color: #dc2626 !important;
   }
 
-  /* Keyboard navigation visual indicator */
-  .nav-item[data-focused="true"] {
-    background-color: var(--color-bg-tertiary);
-    box-shadow: inset 0 0 0 2px var(--color-accent);
+  /* Dark mode */
+  .dark .nav-item:focus,
+  .dark .nav-item:focus-visible,
+  .dark .nav-item[data-focused='true'] {
+    background-color: rgba(248, 113, 113, 0.2) !important;
+    border-left-color: #f87171 !important;
+  }
+
+  .dark .nav-item.active:focus,
+  .dark .nav-item.active:focus-visible,
+  .dark .nav-item.active[data-focused='true'] {
+    background-color: rgba(248, 113, 113, 0.3) !important;
+    border-left-color: #fca5a5 !important;
   }
 
   /* --------------------------------------------
@@ -900,4 +913,10 @@
   .hidden {
     display: none;
   }
+}
+
+/* DEBUG: Test if attribute selector works - add at END of file */
+[data-focused="true"] {
+  background-color: lime !important;
+  outline: 3px solid red !important;
 }

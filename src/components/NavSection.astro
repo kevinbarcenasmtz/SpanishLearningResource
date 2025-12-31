@@ -102,6 +102,12 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
     background-color: var(--color-bg-tertiary);
   }
 
+  /* Dark mode - ensure ring is visible */
+  :global(.dark) .nav-section-header:focus-visible {
+    outline-color: #f87171; /* Lighter red for better contrast */
+    background-color: rgba(255, 255, 255, 0.08); /* Subtle white overlay */
+  }
+
   .nav-section-title {
     font-size: 0.6875rem;
     font-weight: 600;
@@ -152,7 +158,9 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
     margin-left: 0.5rem;
     border-left: 1px solid var(--color-border);
   }
-
+  .nav-section-items .nav-item {
+  margin: 2px 2px 2px 0;  /* Give space for the outline */
+}
   /* Dark mode - use more visible border color */
   :global(.dark) .nav-section-items {
     border-left-color: var(--color-text-tertiary);
@@ -163,4 +171,38 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
   }
+
+  /* Focus states - must be in component to override Astro scoping */
+  /* :focus works with scoped selector, but JS-added data-focused needs :global() */
+  .nav-item:focus {
+    background-color: rgba(220, 38, 38, 0.15) !important;
+    box-shadow: inset 0 0 0 2px #dc2626 !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  /* JS-added attribute - use :global() for entire selector */
+  :global(.nav-item[data-focused="true"]) {
+    background-color: rgba(220, 38, 38, 0.15) !important;
+    box-shadow: inset 0 0 0 2px #dc2626 !important;
+    color: var(--color-text-primary) !important;
+  }
+
+  :global(.dark) .nav-item:focus {
+    background-color: rgba(248, 113, 113, 0.2) !important;
+    box-shadow: inset 0 0 0 2px #f87171 !important;
+  }
+
+  :global(.dark .nav-item[data-focused="true"]) {
+    background-color: rgba(248, 113, 113, 0.2) !important;
+    box-shadow: inset 0 0 0 2px #f87171 !important;
+  }
+</style>
+
+<!-- Test: Completely unscoped global styles to diagnose scoping issue -->
+<style is:global>
+.nav-item:focus,
+.nav-item[data-focused="true"] {
+  background-color: lime !important;
+  box-shadow: inset 0 0 0 3px red !important;
+}
 </style>
