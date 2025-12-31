@@ -6,13 +6,13 @@
 @import 'tailwindcss';
 
 /* ==========================================================================
-      Theme Configuration (Design Tokens)
-      ========================================================================== */
+         Theme Configuration (Design Tokens)
+         ========================================================================== */
 
 @theme {
   /* --------------------------------------------
-        Color System - Light Mode (Default)
-        -------------------------------------------- */
+           Color System - Light Mode (Default)
+           -------------------------------------------- */
   --color-bg-primary: #ffffff;
   --color-bg-secondary: #f9fafb;
   --color-bg-tertiary: #f3f4f6;
@@ -28,11 +28,11 @@
   --color-accent-bg: #fef2f2;
 
   /* --------------------------------------------
-        Typography Scale (Fluid)
-        Based on: Hero 48-64px/36-40px, h1 36-40px/28-32px, h2 28-32px/22-26px,
-                  h3 20-24px/18-20px, h4 18px/16px, Body 16-18px/16px,
-                  Small 14px/13px, Nav 14-15px/14px
-        -------------------------------------------- */
+           Typography Scale (Fluid)
+           Based on: Hero 48-64px/36-40px, h1 36-40px/28-32px, h2 28-32px/22-26px,
+                     h3 20-24px/18-20px, h4 18px/16px, Body 16-18px/16px,
+                     Small 14px/13px, Nav 14-15px/14px
+           -------------------------------------------- */
   --text-hero: clamp(2.25rem, 3.5vw, 4rem); /* 36-40px mobile, 48-64px desktop */
   --text-h1: clamp(1.75rem, 2.5vw, 2.5rem); /* 28-32px mobile, 36-40px desktop */
   --text-h2: clamp(1.375rem, 2vw, 2rem); /* 22-26px mobile, 28-32px desktop */
@@ -43,15 +43,15 @@
   --text-nav: clamp(0.875rem, 0.9375vw, 0.9375rem); /* 14px mobile, 14-15px desktop */
 
   /* --------------------------------------------
-        Font Families
-        -------------------------------------------- */
+           Font Families
+           -------------------------------------------- */
   --font-display: 'Chilanga', cursive, system-ui;
   --font-body: 'Atkinson Hyperlegible', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* --------------------------------------------
-        Spacing & Layout
-        -------------------------------------------- */
+           Spacing & Layout
+           -------------------------------------------- */
   --header-height: 60px;
   --header-height-mobile: 56px;
   --sidebar-width-min: 180px;
@@ -61,15 +61,15 @@
   --content-max-width: 75ch;
 
   /* --------------------------------------------
-        Transitions
-        -------------------------------------------- */
+           Transitions
+           -------------------------------------------- */
   --transition-fast: 0.15s ease;
   --transition-base: 0.2s ease;
   --transition-sidebar: 0.26s ease-out;
 
   /* --------------------------------------------
-        Z-Index Scale
-        -------------------------------------------- */
+           Z-Index Scale
+           -------------------------------------------- */
   --z-sidebar: 40;
   --z-header: 50;
   --z-drawer: 60;
@@ -78,8 +78,8 @@
 }
 
 /* ==========================================================================
-      Font Face Declarations
-      ========================================================================== */
+         Font Face Declarations
+         ========================================================================== */
 
 @font-face {
   font-family: 'Chilanga';
@@ -105,30 +105,30 @@
 /* Bebas Neue font is loaded via Google Fonts in BaseLayout */
 
 /* ==========================================================================
-      Dark Mode Colors
-      ========================================================================== */
+         Dark Mode Colors - 9G Rótulo Theme
+         ========================================================================== */
 
 .dark {
-  --color-bg-primary: #18181b;
-  background: linear-gradient(180deg, #18181b 0%, #27272a 100%);
+  --color-bg-primary: #2d1810; /* Deep chocolate brown */
+  background: linear-gradient(180deg, #2d1810 0%, #3d2416 100%); /* Warm brown gradient */
 
-  --color-bg-secondary: #27272a;
-  --color-bg-tertiary: #262626;
+  --color-bg-secondary: #3d2416; /* Lighter warm brown */
+  --color-bg-tertiary: #4a2a1a; /* Even lighter brown for hovers */
 
-  --color-text-primary: #fafafa;
-  --color-text-secondary: #a1a1aa;
-  --color-text-tertiary: #71717a;
+  --color-text-primary: #faedc9; /* Cream text */
+  --color-text-secondary: #c4a574; /* Muted gold */
+  --color-text-tertiary: #8c6f47; /* Darker gold */
 
-  --color-border: #27272a;
+  --color-border: #4a2a1a; /* Warm brown border */
 
-  --color-accent: #ef4444;
-  --color-accent-hover: #dc2626;
-  --color-accent-bg: #1c1917;
+  --color-accent: #dc2626; /* Red accent */
+  --color-accent-hover: #b91c1c; /* Darker red */
+  --color-accent-bg: #4a1c1c; /* Dark red background */
 }
 
 /* ==========================================================================
-      Rótulo Styles - 12D Dark Mode Hero
-      ========================================================================== */
+         Rótulo Styles - 9G Traditional (Cream/Red/Yellow)
+         ========================================================================== */
 
 /* Two-line base styles */
 .two-line {
@@ -159,22 +159,22 @@
   display: block;
 }
 
-/* 12D: Dark Mode Hero - Applied automatically in dark mode */
+/* 9G: Dark Mode Hero - Red gradient with yellow shadow */
 .dark .two-line-top {
-  background-image: linear-gradient(0deg, #dc2626, #fbbf24);
-  -webkit-text-stroke: 0.04rem #fef3c7;
-  filter: drop-shadow(0.15rem 0.15rem 0 #0ea5e9);
+  background-image: linear-gradient(0deg, #a31515, #dc2626);
+  -webkit-text-stroke: 0.05rem #4a1c1c;
+  filter: drop-shadow(0.2rem 0.2rem 0 #f7b32b);
 }
 
 .dark .two-line-bottom {
-  background-image: linear-gradient(0deg, #0ea5e9, #7dd3fc);
-  -webkit-text-stroke: 0.05rem #0c4a6e;
-  filter: drop-shadow(0.12rem 0.12rem 0 #fbbf24) drop-shadow(0.24rem 0.24rem 0 #dc2626);
+  background-image: linear-gradient(0deg, #a31515, #dc2626);
+  -webkit-text-stroke: 0.05rem #4a1c1c;
+  filter: drop-shadow(0.2rem 0.2rem 0 #f7b32b);
 }
 
 /* ==========================================================================
-      Base Layer
-      ========================================================================== */
+         Base Layer
+         ========================================================================== */
 
 @layer base {
   html {
@@ -186,9 +186,9 @@
     scroll-padding-top: calc(var(--header-height) + 20px);
   }
 
-  /* 12D Dark Mode Background Gradient */
+  /* 9G Dark Mode Background Gradient - Warm chocolate brown */
   .dark html {
-    background: linear-gradient(180deg, #18181b 0%, #27272a 100%);
+    background: linear-gradient(180deg, #2d1810 0%, #3d2416 100%);
     background-attachment: fixed; /* Keep gradient fixed on scroll */
   }
 
@@ -206,24 +206,27 @@
     font-size: var(--text-h1);
   }
 
-  /* 12D Dark Mode Color Scheme for Chilanga headings (h1, h2) */
+  /* 9G Dark Mode Color Scheme for Chilanga headings (h1, h2) */
   .dark h1,
   .dark h2 {
-    background-image: linear-gradient(0deg, #dc2626, #fbbf24);
+    background-image: linear-gradient(0deg, #a31515, #dc2626);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    -webkit-text-stroke: 0.04rem #fef3c7;
-    filter: drop-shadow(0.15rem 0.15rem 0 #0ea5e9);
+    -webkit-text-stroke: 0.05rem #4a1c1c;
+    filter: drop-shadow(0.2rem 0.2rem 0 #f7b32b);
   }
+
   h2 {
     font-size: var(--text-h2);
   }
+
   h3 {
     font-family: var(--font-body);
     font-size: var(--text-h3);
     font-weight: 700; /* Bold for Atkinson */
   }
+
   h4 {
     font-family: var(--font-body);
     font-size: var(--text-h4);
@@ -248,13 +251,13 @@
 }
 
 /* ==========================================================================
-      Component Layer
-      ========================================================================== */
+         Component Layer
+         ========================================================================== */
 
 @layer components {
   /* --------------------------------------------
-        Skip Link (Accessibility)
-        -------------------------------------------- */
+           Skip Link (Accessibility)
+           -------------------------------------------- */
   .skip-link {
     position: absolute;
     top: -100%;
@@ -275,8 +278,8 @@
   }
 
   /* --------------------------------------------
-        Custom Scrollbar
-        -------------------------------------------- */
+           Custom Scrollbar
+           -------------------------------------------- */
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: var(--color-border) transparent;
@@ -313,8 +316,8 @@
   }
 
   /* --------------------------------------------
-        Nav Item States
-        -------------------------------------------- */
+           Nav Item States
+           -------------------------------------------- */
   .nav-item {
     display: flex;
     align-items: center;
@@ -378,8 +381,8 @@
   }
 
   /* --------------------------------------------
-        Prose / Content Area
-        -------------------------------------------- */
+           Prose / Content Area
+           -------------------------------------------- */
   .prose {
     line-height: 1.7;
   }
@@ -458,8 +461,8 @@
   }
 
   /* --------------------------------------------
-        IPA Transcriptions
-        -------------------------------------------- */
+           IPA Transcriptions
+           -------------------------------------------- */
   .ipa {
     font-family: var(--font-mono);
     font-size: 0.95em;
@@ -470,8 +473,8 @@
   }
 
   /* --------------------------------------------
-        Cultural Notes Callout
-        -------------------------------------------- */
+           Cultural Notes Callout
+           -------------------------------------------- */
   .callout {
     padding: 1rem 1.25rem;
     margin: 1.5rem 0;
@@ -487,8 +490,8 @@
   }
 
   /* --------------------------------------------
-        Collapsible Drill Answers
-        -------------------------------------------- */
+           Collapsible Drill Answers
+           -------------------------------------------- */
   details.drill {
     margin: 1rem 0;
     border: 1px solid var(--color-border);
@@ -518,8 +521,8 @@
   }
 
   /* --------------------------------------------
-        Vocabulary Cards
-        -------------------------------------------- */
+           Vocabulary Cards
+           -------------------------------------------- */
   .vocab-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -561,8 +564,8 @@
   }
 
   /* --------------------------------------------
-        Mobile Drawer Overlay
-        -------------------------------------------- */
+           Mobile Drawer Overlay
+           -------------------------------------------- */
   .drawer-overlay {
     position: fixed;
     inset: 0;
@@ -611,8 +614,8 @@
   }
 
   /* --------------------------------------------
-        Theme Toggle Button
-        -------------------------------------------- */
+           Theme Toggle Button
+           -------------------------------------------- */
   .theme-toggle {
     display: flex;
     align-items: center;
@@ -635,8 +638,8 @@
   }
 
   /* --------------------------------------------
-        Search Input
-        -------------------------------------------- */
+           Search Input
+           -------------------------------------------- */
   .search-input {
     width: 100%;
     padding: 0.625rem 0.75rem 0.625rem 2.5rem;
@@ -662,12 +665,12 @@
 
   /* Dark mode: More visible focus ring */
   .dark .search-input:focus {
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
   }
 
   /* ==========================================================================
-        App Shell Layout
-        ========================================================================== */
+           App Shell Layout
+           ========================================================================== */
 
   .app-shell {
     display: flex;
@@ -680,8 +683,8 @@
   }
 
   /* --------------------------------------------
-        Header
-        -------------------------------------------- */
+           Header
+           -------------------------------------------- */
   .app-header {
     flex-shrink: 0;
     height: var(--header-height-mobile);
@@ -697,8 +700,8 @@
   }
 
   /* --------------------------------------------
-        Main Body Grid
-        -------------------------------------------- */
+           Main Body Grid
+           -------------------------------------------- */
   .app-body {
     flex: 1;
     display: grid;
@@ -737,8 +740,8 @@
   }
 
   /* --------------------------------------------
-        Left Sidebar
-        -------------------------------------------- */
+           Left Sidebar
+           -------------------------------------------- */
   .app-sidebar-left {
     grid-area: left;
     display: none;
@@ -794,8 +797,8 @@
   }
 
   /* --------------------------------------------
-        Main Content
-        -------------------------------------------- */
+           Main Content
+           -------------------------------------------- */
   .app-content {
     grid-area: content;
     overflow-y: auto;
@@ -822,8 +825,8 @@
   }
 
   /* --------------------------------------------
-        Right Sidebar (ToC)
-        -------------------------------------------- */
+           Right Sidebar (ToC)
+           -------------------------------------------- */
   .app-sidebar-right {
     grid-area: right;
     display: none;
@@ -843,8 +846,8 @@
   }
 
   /* --------------------------------------------
-        Sidebar Toggle Button Icons
-        -------------------------------------------- */
+           Sidebar Toggle Button Icons
+           -------------------------------------------- */
   .sidebar-icon-closed {
     display: none;
   }
@@ -859,8 +862,8 @@
 }
 
 /* ==========================================================================
-      Utility Layer
-      ========================================================================== */
+         Utility Layer
+         ========================================================================== */
 
 @layer utilities {
   .font-display {
@@ -907,6 +910,25 @@
 
   .bg-border {
     background-color: var(--color-border);
+  }
+
+  /* 9G Rótulo Background */
+  .bg-9g {
+    background: #faedc9; /* Cream for light mode */
+  }
+
+  .dark .bg-9g {
+    background: #2d1810; /* Deep chocolate brown for dark mode */
+  }
+
+  /* 9G Rótulo Text Style */
+  .style-9g {
+    background-image: linear-gradient(0deg, #a31515, #dc2626);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-text-stroke: 0.05rem #4a1c1c;
+    filter: drop-shadow(0.2rem 0.2rem 0 #f7b32b);
   }
 
   .body-scroll-lock {
