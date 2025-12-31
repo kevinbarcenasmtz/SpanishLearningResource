@@ -1,6 +1,6 @@
 /**
  * Keyboard Navigation
- * 
+ *
  * Implements roving tabindex pattern for sidebar navigation.
  * - Single global keydown handler for both "/" search and arrow navigation
  * - Arrow keys work from anywhere on the page (focus moves to sidebar)
@@ -17,7 +17,7 @@ let globalKeydownHandler: ((e: KeyboardEvent) => void) | null = null;
 export function initKeyboardNavigation(searchInputId: string = 'sidebar-search'): void {
   const searchInput = document.getElementById(searchInputId) as HTMLInputElement;
   const nav = searchInput?.closest('.sidebar-content')?.querySelector('.sidebar-nav');
-  
+
   if (!nav) return;
 
   // Clean up previous listener to prevent duplicates
@@ -40,12 +40,12 @@ export function initKeyboardNavigation(searchInputId: string = 'sidebar-search')
 function initializeTabindex(nav: Element): void {
   const items = getVisibleNavItems(nav);
   const activeItem = nav.querySelector('.nav-item.active') as HTMLElement;
-  
+
   // Set all to -1 first
   items.forEach((item) => {
     item.setAttribute('tabindex', '-1');
   });
-  
+
   // Set active or first to 0
   if (activeItem) {
     activeItem.setAttribute('tabindex', '0');
@@ -111,17 +111,18 @@ function createKeydownHandler(nav: Element, searchInput: HTMLInputElement | null
 
     // Find the visible desktop sidebar nav
     const sidebar = document.querySelector('.app-sidebar-left:not([style*="display: none"])');
-    const activeNav = sidebar?.querySelector('.sidebar-nav') || document.querySelector('.sidebar-nav');
+    const activeNav =
+      sidebar?.querySelector('.sidebar-nav') || document.querySelector('.sidebar-nav');
     if (!activeNav) return;
 
     const items = getVisibleNavItems(activeNav);
-    
+
     if (items.length === 0) return;
 
     // Try to focus the active item, otherwise the stored focused item, otherwise first
     const activeItem = activeNav.querySelector('.nav-item.active') as HTMLElement;
     const targetItem = activeItem || currentFocusedItem || items[0];
-    
+
     if (targetItem && items.includes(targetItem)) {
       setFocusedItem(targetItem);
     } else if (items[0]) {
@@ -307,9 +308,9 @@ function handleNavItemKeydown(e: KeyboardEvent, target: HTMLElement): void {
  */
 function getVisibleNavItems(container: Element): HTMLElement[] {
   const allItems = Array.from(
-    container.querySelectorAll('[data-nav-item]:not(.hidden)')
+    container.querySelectorAll('[data-nav-item]:not(.hidden)'),
   ) as HTMLElement[];
-  
+
   return allItems.filter((item) => {
     const section = item.closest('.nav-section');
     // If not in a section (static links), always include
@@ -323,7 +324,6 @@ function getVisibleNavItems(container: Element): HTMLElement[] {
  * Set focus on an item using roving tabindex pattern
  */
 function setFocusedItem(item: HTMLElement): void {
-
   // Remove tabindex from previous item
   if (currentFocusedItem && currentFocusedItem !== item) {
     currentFocusedItem.setAttribute('tabindex', '-1');
@@ -348,12 +348,12 @@ if (typeof document !== 'undefined') {
   document.addEventListener('focusout', (e) => {
     const target = e.target as HTMLElement;
     const relatedTarget = e.relatedTarget as HTMLElement;
-    
+
     // Only remove if focus is moving outside sidebar nav items
     if (target?.hasAttribute?.('data-nav-item')) {
-      const isMovingToNavItem = relatedTarget?.hasAttribute?.('data-nav-item') || 
-                                 relatedTarget?.closest('.sidebar-nav');
-      
+      const isMovingToNavItem =
+        relatedTarget?.hasAttribute?.('data-nav-item') || relatedTarget?.closest('.sidebar-nav');
+
       // Only remove if NOT moving to another nav item
       if (!isMovingToNavItem) {
         target.removeAttribute('data-focused');

@@ -1,6 +1,6 @@
 /**
  * Collapsible Sections
- * 
+ *
  * Handles expand/collapse functionality for navigation sections.
  * Note: Initial state is applied by inline script to prevent flash.
  * This module only handles click interactions.

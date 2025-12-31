@@ -16,7 +16,7 @@
  * @see ui-ux-requirements.md Section 4 - Right Sidebar
  */
 
- import TocItem from './TocItem.astro';
+import TocItem from './TocItem.astro';
 
 interface Heading {
   depth: number;
@@ -156,7 +156,7 @@ const hasHeadings = filteredHeadings.length > 0;
 
       if (visibleHeadings.size > 0) {
         const sortedVisible = Array.from(visibleHeadings.entries()).sort(
-          ([, a], [, b]) => a.boundingClientRect.top - b.boundingClientRect.top
+          ([, a], [, b]) => a.boundingClientRect.top - b.boundingClientRect.top,
         );
         setActiveHeading(sortedVisible[0][0]);
       } else {
@@ -210,10 +210,7 @@ const hasHeadings = filteredHeadings.length > 0;
     });
   }
 
-  function addClickHandlers(
-    links: NodeListOf<Element>,
-    setActive?: (id: string) => void
-  ) {
+  function addClickHandlers(links: NodeListOf<Element>, setActive?: (id: string) => void) {
     links.forEach((link) => {
       link.addEventListener('click', (e) => {
         const href = link.getAttribute('href');

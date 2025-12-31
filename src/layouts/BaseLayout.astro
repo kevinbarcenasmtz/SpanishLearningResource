@@ -21,7 +21,7 @@
  * - header: Header override (defaults to Header component)
  */
 
- import '../styles/global.css';
+import '../styles/global.css';
 import Header from '../components/Header.astro';
 import LeftSidebar from '../components/LeftSidebar.astro';
 
@@ -363,7 +363,7 @@ const currentPath = Astro.url.pathname;
         function setSidebarState(isVisible: boolean): void {
           document.documentElement.classList.remove(
             'sidebar-visible-init',
-            'sidebar-collapsed-init'
+            'sidebar-collapsed-init',
           );
 
           if (isTablet()) {

@@ -8,7 +8,7 @@
  * - Desktop (>1024px): sidebar toggle (left) + logo (center)
  */
 
- interface Props {
+interface Props {
   siteTitle?: string;
 }
 
@@ -47,12 +47,7 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
         aria-controls="left-sidebar"
       >
         <!-- Sidebar open icon (collapse) -->
-        <svg
-          class="icon sidebar-icon-open"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        <svg class="icon sidebar-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -60,12 +55,7 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
             d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
         </svg>
         <!-- Sidebar closed icon (expand) -->
-        <svg
-          class="icon sidebar-icon-closed"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
+        <svg class="icon sidebar-icon-closed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
             stroke-linejoin="round"

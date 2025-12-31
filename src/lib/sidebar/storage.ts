@@ -1,6 +1,6 @@
 /**
  * Sidebar Storage Utilities
- * 
+ *
  * Manages localStorage for sidebar state
  */
 
@@ -26,4 +26,3 @@ export function removeCollapsedSection(sectionId: string): void {
   const collapsed = getCollapsedSections().filter((id) => id !== sectionId);
   localStorage.setItem(STORAGE_KEYS.collapsed, JSON.stringify(collapsed));
 }
-

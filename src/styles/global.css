@@ -916,7 +916,7 @@
 }
 
 /* DEBUG: Test if attribute selector works - add at END of file */
-[data-focused="true"] {
+[data-focused='true'] {
   background-color: lime !important;
   outline: 3px solid red !important;
 }

@@ -1,6 +1,6 @@
 /**
  * Navigation Data
- * 
+ *
  * Static navigation structure for the sidebar
  */
 
@@ -23,4 +23,3 @@ export const appendices = [
   { title: 'Cultural Notes Compendium', href: '/appendices/cultural-notes' },
   { title: 'Grammar Reference', href: '/appendices/grammar-reference' },
 ];
-

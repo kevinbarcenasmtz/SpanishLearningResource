@@ -21,8 +21,8 @@ const { sectionId, title, items, currentPath = '' } = Astro.props;
 const hasActiveItem = items.some((item) => currentPath === item.href);
 ---
 
-<div 
-  class="nav-section" 
+<div
+  class="nav-section"
   data-section={sectionId}
   data-has-active={hasActiveItem ? 'true' : 'false'}
 >
@@ -35,41 +35,42 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
     <span class="nav-section-title">
       {title}
     </span>
-    <svg 
-      class="nav-section-chevron" 
-      width="16" 
-      height="16" 
-      viewBox="0 0 16 16" 
+    <svg
+      class="nav-section-chevron"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
       fill="none"
       aria-hidden="true"
     >
-      <path 
-        d="M6 4L10 8L6 12" 
-        stroke="currentColor" 
-        stroke-width="1.5" 
-        stroke-linecap="round" 
-        stroke-linejoin="round"
-      />
+      <path
+        d="M6 4L10 8L6 12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"></path>
     </svg>
   </button>
-  <div 
-    class="nav-section-content" 
+  <div
+    class="nav-section-content"
     id={`section-${sectionId}`}
     role="group"
     aria-label={`${title} navigation items`}
   >
     <div class="nav-section-items">
-      {items.map((item, index) => (
-        <a
-          href={item.href}
-          class:list={['nav-item', { active: currentPath === item.href }]}
-          data-nav-item
-          tabindex={currentPath === item.href ? 0 : -1}
-          aria-current={currentPath === item.href ? 'page' : undefined}
-        >
-          {item.title}
-        </a>
-      ))}
+      {
+        items.map((item, index) => (
+          <a
+            href={item.href}
+            class:list={['nav-item', { active: currentPath === item.href }]}
+            data-nav-item
+            tabindex={currentPath === item.href ? 0 : -1}
+            aria-current={currentPath === item.href ? 'page' : undefined}
+          >
+            {item.title}
+          </a>
+        ))
+      }
     </div>
   </div>
 </div>
@@ -128,13 +129,13 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
   }
 
   /* Subtle left indicator when section has active item */
-  .nav-section[data-has-active="true"] .nav-section-header {
+  .nav-section[data-has-active='true'] .nav-section-header {
     border-left: 2px solid var(--color-accent);
     padding-left: calc(0.75rem - 2px);
   }
 
   /* Ensure indicator is visible in dark mode - may need more prominence */
-  :global(.dark) .nav-section[data-has-active="true"] .nav-section-header {
+  :global(.dark) .nav-section[data-has-active='true'] .nav-section-header {
     border-left-width: 3px;
     padding-left: calc(0.75rem - 3px);
   }
@@ -159,8 +160,8 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
     border-left: 1px solid var(--color-border);
   }
   .nav-section-items .nav-item {
-  margin: 2px 2px 2px 0;  /* Give space for the outline */
-}
+    margin: 2px 2px 2px 0; /* Give space for the outline */
+  }
   /* Dark mode - use more visible border color */
   :global(.dark) .nav-section-items {
     border-left-color: var(--color-text-tertiary);
@@ -181,7 +182,7 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
   }
 
   /* JS-added attribute - use :global() for entire selector */
-  :global(.nav-item[data-focused="true"]) {
+  :global(.nav-item[data-focused='true']) {
     background-color: rgba(220, 38, 38, 0.15) !important;
     box-shadow: inset 0 0 0 2px #dc2626 !important;
     color: var(--color-text-primary) !important;
@@ -192,7 +193,7 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
     box-shadow: inset 0 0 0 2px #f87171 !important;
   }
 
-  :global(.dark .nav-item[data-focused="true"]) {
+  :global(.dark .nav-item[data-focused='true']) {
     background-color: rgba(248, 113, 113, 0.2) !important;
     box-shadow: inset 0 0 0 2px #f87171 !important;
   }
@@ -200,9 +201,9 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
 
 <!-- Test: Completely unscoped global styles to diagnose scoping issue -->
 <style is:global>
-.nav-item:focus,
-.nav-item[data-focused="true"] {
-  background-color: lime !important;
-  box-shadow: inset 0 0 0 3px red !important;
-}
+  .nav-item:focus,
+  .nav-item[data-focused='true'] {
+    background-color: lime !important;
+    box-shadow: inset 0 0 0 3px red !important;
+  }
 </style>

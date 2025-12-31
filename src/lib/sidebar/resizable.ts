@@ -1,6 +1,6 @@
 /**
  * Resizable Sidebar
- * 
+ *
  * Handles drag-to-resize functionality for the sidebar
  */
 
@@ -73,10 +73,10 @@ export function initResizable(): void {
     startWidth = sidebar.offsetWidth;
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
-    
+
     // Enable smooth resize during drag (only on grid, sidebar follows directly)
     gridContainer.style.transition = 'grid-template-columns 0.05s ease-out';
-    
+
     e.preventDefault();
   });
 
@@ -108,7 +108,7 @@ export function initResizable(): void {
       isResizing = false;
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
-      
+
       // Remove transition after resize
       gridContainer.style.transition = '';
 
@@ -158,4 +158,3 @@ if (typeof document !== 'undefined') {
     isInitialized = false;
   });
 }
-

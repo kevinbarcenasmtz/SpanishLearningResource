@@ -1,6 +1,6 @@
 /**
  * Search Functionality
- * 
+ *
  * Handles search filtering and text highlighting
  */
 
@@ -114,4 +114,3 @@ function highlightText(element: HTMLElement, query: string): void {
     node.parentNode?.replaceChild(fragment, node);
   });
 }
-

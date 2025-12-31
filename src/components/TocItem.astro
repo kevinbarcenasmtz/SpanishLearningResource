@@ -12,7 +12,7 @@
  * @see ui-ux-requirements.md Section 4 - Right Sidebar
  */
 
- interface Props {
+interface Props {
   /** The anchor href (e.g., "#section-id") */
   href: string;
   /** Display text for the ToC item */
@@ -26,12 +26,7 @@
 const { href, text, depth, isActive = false } = Astro.props;
 ---
 
-<a
-  href={href}
-  class:list={['toc-item', { active: isActive }]}
-  data-depth={depth}
-  data-toc-link
->
+<a href={href} class:list={['toc-item', { active: isActive }]} data-depth={depth} data-toc-link>
   {text}
 </a>
 

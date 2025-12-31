@@ -1,6 +1,6 @@
 /**
  * Sidebar Initialization
- * 
+ *
  * Main entry point for sidebar functionality
  */
 
@@ -15,4 +15,3 @@ export function initSidebar(searchInputId: string = 'sidebar-search'): void {
   initSearch(searchInputId);
   initResizable();
 }
-

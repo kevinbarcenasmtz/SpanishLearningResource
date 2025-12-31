@@ -48,7 +48,12 @@ const lessonsBySection = allLessons
   );
 ---
 
-<div id="left-sidebar-container" class="sidebar-container" style="width: 100%;" data-sidebar-context={context}>
+<div
+  id="left-sidebar-container"
+  class="sidebar-container"
+  style="width: 100%;"
+  data-sidebar-context={context}
+>
   <div class="sidebar-content">
     <!-- Search Bar -->
     <div class="p-4 pb-2">
@@ -110,34 +115,40 @@ const lessonsBySection = allLessons
       />
 
       <!-- Foundation Section -->
-      {lessonsBySection.Foundation && (
-        <NavSection
-          sectionId="foundation"
-          title="Foundation"
-          items={lessonsBySection.Foundation}
-          currentPath={currentPath}
-        />
-      )}
+      {
+        lessonsBySection.Foundation && (
+          <NavSection
+            sectionId="foundation"
+            title="Foundation"
+            items={lessonsBySection.Foundation}
+            currentPath={currentPath}
+          />
+        )
+      }
 
       <!-- Intermediate Section -->
-      {lessonsBySection.Intermediate && (
-        <NavSection
-          sectionId="intermediate"
-          title="Intermediate"
-          items={lessonsBySection.Intermediate}
-          currentPath={currentPath}
-        />
-      )}
+      {
+        lessonsBySection.Intermediate && (
+          <NavSection
+            sectionId="intermediate"
+            title="Intermediate"
+            items={lessonsBySection.Intermediate}
+            currentPath={currentPath}
+          />
+        )
+      }
 
       <!-- Advanced Section -->
-      {lessonsBySection.Advanced && (
-        <NavSection
-          sectionId="advanced"
-          title="Advanced"
-          items={lessonsBySection.Advanced}
-          currentPath={currentPath}
-        />
-      )}
+      {
+        lessonsBySection.Advanced && (
+          <NavSection
+            sectionId="advanced"
+            title="Advanced"
+            items={lessonsBySection.Advanced}
+            currentPath={currentPath}
+          />
+        )
+      }
 
       <!-- Appendices Section -->
       <NavSection
@@ -169,10 +180,10 @@ const lessonsBySection = allLessons
 
 <script is:inline>
   // Run immediately to prevent flash - before CSS paints
-  (function() {
+  (function () {
     const COLLAPSED_KEY = 'sidebar-collapsed-sections';
     const WIDTH_KEY = 'sidebar-width';
-    
+
     function getCollapsedSections() {
       try {
         const stored = localStorage.getItem(COLLAPSED_KEY);
@@ -181,7 +192,7 @@ const lessonsBySection = allLessons
         return [];
       }
     }
-    
+
     // Restore sidebar width immediately (desktop only)
     if (window.innerWidth >= 1024) {
       const storedWidth = localStorage.getItem(WIDTH_KEY);
@@ -194,15 +205,16 @@ const lessonsBySection = allLessons
           sidebar.style.transition = 'none';
           gridContainer.style.transition = 'none';
           sidebar.style.width = width + 'px';
-          
+
           // Get ToC width for grid
-          const tocWidth = getComputedStyle(document.documentElement)
-            .getPropertyValue('--toc-width').trim() || '200px';
+          const tocWidth =
+            getComputedStyle(document.documentElement).getPropertyValue('--toc-width').trim() ||
+            '200px';
           gridContainer.style.gridTemplateColumns = width + 'px 1fr ' + tocWidth;
-          
+
           // Re-enable transitions after paint
-          requestAnimationFrame(function() {
-            requestAnimationFrame(function() {
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
               sidebar.style.transition = '';
               gridContainer.style.transition = '';
             });
@@ -210,9 +222,9 @@ const lessonsBySection = allLessons
         }
       }
     }
-    
+
     const collapsedSections = getCollapsedSections();
-    
+
     // Expand all sections NOT in the collapsed list
     document.querySelectorAll('.nav-section').forEach((section) => {
       const sectionId = section.getAttribute('data-section');
@@ -222,7 +234,7 @@ const lessonsBySection = allLessons
         if (button) button.setAttribute('aria-expanded', 'true');
       }
     });
-    
+
     // Also expand section containing current page
     const activeItem = document.querySelector('.nav-item.active');
     if (activeItem) {
@@ -324,7 +336,7 @@ const lessonsBySection = allLessons
   }
 
   /* JS-added attribute - use :global() for entire selector */
-  :global(.nav-item[data-focused="true"]) {
+  :global(.nav-item[data-focused='true']) {
     background-color: rgba(220, 38, 38, 0.15) !important;
     box-shadow: inset 0 0 0 2px #dc2626 !important;
     color: var(--color-text-primary) !important;
@@ -335,7 +347,7 @@ const lessonsBySection = allLessons
     box-shadow: inset 0 0 0 2px #f87171 !important;
   }
 
-  :global(.dark .nav-item[data-focused="true"]) {
+  :global(.dark .nav-item[data-focused='true']) {
     background-color: rgba(248, 113, 113, 0.2) !important;
     box-shadow: inset 0 0 0 2px #f87171 !important;
   }
