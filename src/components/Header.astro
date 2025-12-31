@@ -6,6 +6,8 @@
  * - Mobile (<640px): hamburger menu (left) + ToC toggle (right)
  * - Tablet (640-1024px): sidebar toggle (left) + ToC toggle (right)
  * - Desktop (>1024px): sidebar toggle (left) + logo (center)
+ *
+ * Logo uses rótulo styling in both light and dark modes
  */
 
 interface Props {
@@ -61,14 +63,11 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
     </div>
 
     <a href="/" class="header-logo">
-      <!-- Full title (tablet+) - Regular text in light mode, two-line style in dark mode -->
+      <!-- Full title (tablet+) - Rótulo style in both modes -->
       <div class="logo-text-wrapper tablet-desktop-only">
         <span class="logo-text">{siteTitle}</span>
-        <div class="two-line">
-          <span class="two-line-top">A Course in Mexican Spanish</span>
-        </div>
       </div>
-      <!-- Short title (mobile) -->
+      <!-- Short title (mobile) - Rótulo style -->
       <span class="logo-text-short mobile-only">Mexican Spanish</span>
     </a>
 
@@ -135,53 +134,54 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
     width: 1.5rem;
     height: 1.5rem;
   }
+
   /* Logo */
   .header-logo {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
-    color: var(--color-text-primary);
   }
 
   .header-logo:hover {
     text-decoration: none;
   }
+
   .logo-text-wrapper {
     display: flex;
     align-items: center;
   }
 
+  /* Rótulo-style logo text */
   .logo-text,
   .logo-text-short {
     font-family: var(--font-display);
+    line-height: 1.1;
+    /* Light mode: Red text with yellow shadow going down-left */
+    background-image: linear-gradient(0deg, #c50300, #ea0400);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    -webkit-text-stroke: 0.02rem #8b0000;
+    filter: drop-shadow(-0.1rem 0.1rem 0 #f8d103);
   }
 
   .logo-text {
-    font-size: 1.25rem;
+    font-size: 2.5rem;
   }
 
   .logo-text-short {
     font-size: 1.125rem;
   }
 
-  /* In light mode, show regular text, hide two-line */
-  .logo-text-wrapper .two-line {
-    display: none;
+  /* Dark mode: Red→Yellow gradient with cream stroke and cyan shadow (bottom-left) */
+  :global(.dark) .logo-text,
+  :global(.dark) .logo-text-short {
+    background-image: linear-gradient(0deg, #ff1101, #ffea07);
+    -webkit-text-stroke: 0.03rem #f7efd1;
+    filter: drop-shadow(-0.1rem 0.1rem 0 #0c90cd);
   }
 
-  .logo-text-wrapper .logo-text {
-    display: block;
-  }
-
-  /* In dark mode, show two-line style, hide regular text */
-  :global(.dark) .logo-text-wrapper .logo-text {
-    display: none;
-  }
-
-  :global(.dark) .logo-text-wrapper .two-line {
-    display: block;
-  }
   .sidebar-icon-closed {
     display: none;
   }
