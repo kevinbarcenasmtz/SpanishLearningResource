@@ -49,32 +49,22 @@ const currentPath = Astro.url.pathname;
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
-
-    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- Font Preloading -->
     <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" crossorigin />
 
     <!-- Dark Mode & Sidebar State: Prevent flash -->
     <script is:inline>
       (function () {
-        // Dark mode
         const storedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
           document.documentElement.classList.add('dark');
         }
-
-        // Sidebar state - apply immediately to prevent flash
         const sidebarVisible = localStorage.getItem('sidebar-visible');
         const isDesktop = window.innerWidth >= 1024;
         const isTablet = window.innerWidth >= 640 && window.innerWidth < 1024;
-
-        // Default: hidden on tablet, visible on desktop
         const shouldBeVisible = sidebarVisible === null ? isDesktop : sidebarVisible === 'true';
-
         if (isTablet && shouldBeVisible) {
           document.documentElement.classList.add('sidebar-visible-init');
         } else if (isDesktop && !shouldBeVisible) {
@@ -85,19 +75,12 @@ const currentPath = Astro.url.pathname;
   </head>
 
   <body class="bg-primary text-primary min-h-screen antialiased">
-    <!-- Skip Link (Accessibility) -->
     <a href="#main-content" class="skip-link"> Skip to main content </a>
-
-    <!-- App Shell -->
     <div class="app-shell">
-      <!-- Header -->
       <slot name="header">
         <Header siteTitle={siteTitle} />
       </slot>
-
-      <!-- Main Layout Grid -->
       <div class="app-body" id="app-body">
-        <!-- Left Sidebar (Navigation) -->
         <aside
           id="left-sidebar"
           class="app-sidebar-left custom-scrollbar"
@@ -107,30 +90,23 @@ const currentPath = Astro.url.pathname;
             <LeftSidebar currentPath={currentPath} context="desktop" />
           </slot>
         </aside>
-
-        <!-- Main Content Area -->
         <main id="main-content" class="app-content custom-scrollbar">
           <div class="content-wrapper">
             <slot />
           </div>
         </main>
-
-        <!-- Right Sidebar (Table of Contents) -->
         <aside
           id="right-sidebar"
           class="app-sidebar-right custom-scrollbar"
           aria-label="Table of contents"
         >
           <slot name="right-sidebar">
-            <!-- Empty by default - pages pass RightSidebar here -->
           </slot>
         </aside>
       </div>
     </div>
-
     <!-- Mobile Drawer Overlay -->
     <div id="drawer-overlay" class="drawer-overlay" aria-hidden="true"></div>
-
     <!-- Mobile Left Drawer -->
     <div
       id="left-drawer"
@@ -162,7 +138,6 @@ const currentPath = Astro.url.pathname;
         </slot>
       </div>
     </div>
-
     <!-- Mobile Right Drawer (ToC) -->
     <div
       id="right-drawer"
@@ -172,7 +147,6 @@ const currentPath = Astro.url.pathname;
       aria-label="Table of contents"
     >
       <div class="drawer-header">
-        <span class="font-display text-lg">On this page</span>
         <button
           type="button"
           class="theme-toggle"
@@ -190,12 +164,10 @@ const currentPath = Astro.url.pathname;
       </div>
       <div class="drawer-body">
         <slot name="mobile-toc">
-          <!-- Empty by default - pages pass RightSidebar here -->
         </slot>
       </div>
     </div>
 
-    <!-- Scripts -->
     <script>
       // ==========================================================================
       // Mobile Drawer Functionality
@@ -207,7 +179,6 @@ const currentPath = Astro.url.pathname;
       const menuToggle = document.getElementById('mobile-menu-toggle');
       const tocToggle = document.getElementById('mobile-toc-toggle');
 
-      // Focus trap state
       let focusTrapActive = false;
       let firstFocusableElement: HTMLElement | null = null;
       let lastFocusableElement: HTMLElement | null = null;

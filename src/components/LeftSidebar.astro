@@ -24,11 +24,7 @@ interface Props {
 
 const { currentPath = '', context = 'desktop' } = Astro.props;
 const searchInputId = `sidebar-search-${context}`;
-
-// Fetch all lessons from content collection
 const allLessons = await getCollection('lessons');
-
-// Sort by order and group by section
 const lessonsBySection = allLessons
   .sort((a, b) => a.data.order - b.data.order)
   .reduce(
@@ -55,7 +51,6 @@ const lessonsBySection = allLessons
   data-sidebar-context={context}
 >
   <div class="sidebar-content">
-    <!-- Search Bar -->
     <div class="p-4 pb-2">
       <div class="relative">
         <svg
@@ -81,9 +76,7 @@ const lessonsBySection = allLessons
       </div>
     </div>
 
-    <!-- Navigation -->
     <nav class="sidebar-nav custom-scrollbar p-4 pt-2" aria-label="Main navigation">
-      <!-- Static Top Links -->
       <div class="mb-4 space-y-1">
         <a
           href={staticPages.home.href}
@@ -102,19 +95,13 @@ const lessonsBySection = allLessons
           {staticPages.about.title}
         </a>
       </div>
-
-      <!-- Divider -->
       <div class="my-3 h-px bg-border"></div>
-
-      <!-- Front Matter Section -->
       <NavSection
         sectionId="front-matter"
         title="Front Matter"
         items={frontMatter}
         currentPath={currentPath}
       />
-
-      <!-- Foundation Section -->
       {
         lessonsBySection.Foundation && (
           <NavSection
@@ -125,8 +112,6 @@ const lessonsBySection = allLessons
           />
         )
       }
-
-      <!-- Intermediate Section -->
       {
         lessonsBySection.Intermediate && (
           <NavSection
@@ -137,8 +122,6 @@ const lessonsBySection = allLessons
           />
         )
       }
-
-      <!-- Advanced Section -->
       {
         lessonsBySection.Advanced && (
           <NavSection
@@ -149,26 +132,18 @@ const lessonsBySection = allLessons
           />
         )
       }
-
-      <!-- Appendices Section -->
       <NavSection
         sectionId="appendices"
         title="Appendices"
         items={appendices}
         currentPath={currentPath}
       />
-
-      <!-- Divider -->
       <div class="my-3 h-px bg-border"></div>
-
-      <!-- Dark Mode Toggle -->
       <div class="nav-item w-full justify-start p-0">
         <ThemeToggle showLabel={true} variant="button" />
       </div>
     </nav>
   </div>
-
-  <!-- Resize Handle -->
   <div
     class="resize-handle"
     role="separator"
@@ -263,28 +238,13 @@ const lessonsBySection = allLessons
 
 <script>
   import { initSidebar } from '../lib/sidebar/index';
-
   // Wait for DOM to be fully loaded
   document.addEventListener('DOMContentLoaded', () => {
-    // Find all sidebar containers and initialize each one's search
-    const containers = document.querySelectorAll('[data-sidebar-context]');
-    containers.forEach((container) => {
-      const context = container.getAttribute('data-sidebar-context');
-      const searchInputId = `sidebar-search-${context}`;
-      const searchInput = document.getElementById(searchInputId);
-      if (searchInput) {
-        initSidebar(searchInputId);
-      }
-    });
+    initSidebar();
   });
-
   // Re-initialize on Astro navigation
   document.addEventListener('astro:after-swap', () => {
-    // Find all sidebar search inputs and initialize each one
-    const searchInputs = document.querySelectorAll('[id^="sidebar-search-"]');
-    searchInputs.forEach((input) => {
-      initSidebar(input.id);
-    });
+    initSidebar();
   });
 </script>
 
@@ -308,8 +268,6 @@ const lessonsBySection = allLessons
     overflow-y: auto;
     padding-bottom: 1rem;
   }
-
-  /* Resize Handle */
   .resize-handle {
     width: 4px;
     cursor: col-resize;
@@ -325,8 +283,6 @@ const lessonsBySection = allLessons
   .resize-handle:active {
     background-color: var(--color-accent);
   }
-
-  /* Search Highlighting */
   :global(.search-highlight) {
     background-color: var(--color-accent-bg);
     color: var(--color-accent);
@@ -334,12 +290,9 @@ const lessonsBySection = allLessons
     padding: 0 0.125rem;
     border-radius: 0.125rem;
   }
-
-  /* Dark mode divider visibility */
   :global(.dark) .bg-border {
     background-color: var(--color-text-tertiary) !important;
   }
-
   /* Focus states for static links */
   /* :focus works with :global(), JS-added data-focused also needs :global() */
   :global(.nav-item):focus {
@@ -347,7 +300,6 @@ const lessonsBySection = allLessons
     box-shadow: inset 0 0 0 2px #dc2626 !important;
     color: var(--color-text-primary) !important;
   }
-
   /* JS-added attribute - use :global() for entire selector */
   :global(.nav-item[data-focused='true']) {
     background-color: rgba(220, 38, 38, 0.15) !important;

@@ -18,13 +18,9 @@ interface Heading {
 }
 
 interface Props {
-  /** Page title */
   title: string;
-  /** Page description for meta tag */
   description?: string;
-  /** Headings for ToC (optional - pass empty array or omit to hide ToC) */
   headings?: Heading[];
-  /** Explicitly show/hide ToC (defaults to true if headings provided) */
   showToc?: boolean;
 }
 
@@ -58,16 +54,11 @@ const tocHeadings: Heading[] =
       </Fragment>
     )
   }
-
-  <!-- Main Content -->
   <article class="prose static-page">
-    <!-- Page Header -->
     <header class="page-header">
       <h1 id="page-title">{title}</h1>
       {description && <p class="page-description">{description}</p>}
     </header>
-
-    <!-- Page Content -->
     <div class="page-body">
       <slot />
     </div>
@@ -75,7 +66,6 @@ const tocHeadings: Heading[] =
 </BaseLayout>
 
 <style>
-  /* Page Header */
   .page-header {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
@@ -93,7 +83,6 @@ const tocHeadings: Heading[] =
     line-height: 1.5;
   }
 
-  /* Page Body */
   .page-body {
     margin: 2rem 0;
   }

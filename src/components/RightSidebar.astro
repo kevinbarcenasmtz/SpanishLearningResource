@@ -8,11 +8,6 @@
  * - Depth-based indentation
  * - Smooth scroll navigation
  *
- * Progressive Enhancement (spec 4.7):
- * - Core navigation works without JS
- * - CSS scroll-spy via :target-current (when supported)
- * - JS fallback via IntersectionObserver for broader support
- *
  * @see ui-ux-requirements.md Section 4 - Right Sidebar
  */
 
@@ -31,7 +26,6 @@ interface Props {
 
 const { headings = [], title = 'On this page' } = Astro.props;
 
-// Filter to only include h1-h4 headings (per spec 4.3)
 const filteredHeadings = headings.filter((h) => h.depth >= 1 && h.depth <= 4);
 const hasHeadings = filteredHeadings.length > 0;
 ---
@@ -68,7 +62,6 @@ const hasHeadings = filteredHeadings.length > 0;
 
 <script>
   function initScrollSpy() {
-    // Handle ALL ToC instances on the page (desktop + mobile drawer)
     const allTocs = document.querySelectorAll('.toc');
     if (allTocs.length === 0) return;
 
@@ -89,7 +82,6 @@ const hasHeadings = filteredHeadings.length > 0;
       toc.classList.add('js-fallback');
     }
 
-    // Get heading IDs from ToC links
     const headingIds = Array.from(tocLinks)
       .map((link) => link.getAttribute('href')?.slice(1))
       .filter((id): id is string => Boolean(id));
@@ -108,8 +100,7 @@ const hasHeadings = filteredHeadings.length > 0;
 
     // JS Fallback Implementation
     let activeHeadingId: string | null = null;
-    
-    // FIX: Track manual scroll to prevent observer interference
+
     const manualScrollState = {
       isManualScroll: false,
       manualScrollTimeout: undefined as number | undefined,
@@ -126,10 +117,9 @@ const hasHeadings = filteredHeadings.length > 0;
 
         if (isActive && tocIndicator) {
           const linkElement = link as HTMLElement;
-          
-          // FIX: Use offsetTop directly - already relative to .toc (the offsetParent)
+
           const top = linkElement.offsetTop;
-          
+
           tocIndicator.style.transform = `translateY(${top}px)`;
           tocIndicator.style.opacity = '1';
           tocIndicator.style.height = `${linkElement.offsetHeight}px`;
@@ -150,9 +140,8 @@ const hasHeadings = filteredHeadings.length > 0;
     const visibleHeadings = new Map<string, IntersectionObserverEntry>();
 
     const observer = new IntersectionObserver((entries) => {
-      // FIX: Don't update active state during manual scroll
       if (manualScrollState.isManualScroll) return;
-      
+
       entries.forEach((entry) => {
         const id = entry.target.id;
         if (entry.isIntersecting) {
@@ -164,7 +153,7 @@ const hasHeadings = filteredHeadings.length > 0;
 
       if (visibleHeadings.size > 0) {
         const sortedVisible = Array.from(visibleHeadings.entries()).sort(
-          ([, a], [, b]) => a.boundingClientRect.top - b.boundingClientRect.top,
+          ([, a], [, b]) => a.boundingClientRect.top - b.boundingClientRect.top
         );
         setActiveHeading(sortedVisible[0][0]);
       } else {
@@ -173,23 +162,23 @@ const hasHeadings = filteredHeadings.length > 0;
         const scrollHeight = document.documentElement.scrollHeight;
         const clientHeight = document.documentElement.clientHeight;
         const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-        
+
         // If within 100px of bottom, activate last heading
         if (distanceFromBottom < 100 && headingElements.length > 0) {
           const lastHeading = headingElements[headingElements.length - 1];
           setActiveHeading(lastHeading.id);
           return;
         }
-        
+
         // Find the heading closest to the top of the viewport (best for both scroll directions)
         let closestHeading: HTMLElement | null = null;
         let closestDistance = Infinity;
         const targetScroll = scrollTop + 100; // 100px offset for header
-        
+
         for (const heading of headingElements) {
           const rect = heading.getBoundingClientRect();
           const headingTop = rect.top + scrollTop;
-          
+
           // Only consider headings that are above or near the target scroll position
           if (headingTop <= targetScroll) {
             const distance = targetScroll - headingTop;
@@ -199,17 +188,14 @@ const hasHeadings = filteredHeadings.length > 0;
             }
           }
         }
-        
+
         setActiveHeading(closestHeading?.id || null);
       }
     }, observerOptions);
 
     headingElements.forEach((heading) => observer.observe(heading));
 
-    // Click handlers - pass manual scroll tracking state
     addClickHandlers(tocLinks, setActiveHeading, manualScrollState);
-
-    // Initial active state
     requestAnimationFrame(() => {
       const scrollTop = window.scrollY;
 
@@ -258,21 +244,18 @@ const hasHeadings = filteredHeadings.length > 0;
 
         if (targetElement) {
           e.preventDefault();
-          
-          // FIX: Set manual scroll flag and immediately update active state
+
+          // Set manual scroll flag and immediately update active state
           if (manualScrollState) {
             manualScrollState.isManualScroll = true;
             if (manualScrollState.manualScrollTimeout !== undefined) {
               clearTimeout(manualScrollState.manualScrollTimeout);
             }
-            
+
             // Immediately set active (prevents flash)
             setActive?.(targetId);
-            
-            // Scroll to element
             history.pushState(null, '', href);
             targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
             // Clear flag after scroll animation completes (~600ms for smooth scroll)
             manualScrollState.manualScrollTimeout = window.setTimeout(() => {
               manualScrollState.isManualScroll = false;

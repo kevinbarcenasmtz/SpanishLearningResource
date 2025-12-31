@@ -9,9 +9,10 @@ import { initKeyboardNavigation } from './keyboard';
 import { initSearch } from './search';
 import { initResizable } from './resizable';
 
-export function initSidebar(searchInputId: string = 'sidebar-search'): void {
+export function initSidebar(): void {
   initCollapsibleSections();
-  initKeyboardNavigation(searchInputId);
-  initSearch(searchInputId);
+  initKeyboardNavigation('sidebar-search-mobile');
+  initSearch('sidebar-search-desktop', '#left-sidebar');
+  initSearch('sidebar-search-mobile', '#left-drawer');  
   initResizable();
 }

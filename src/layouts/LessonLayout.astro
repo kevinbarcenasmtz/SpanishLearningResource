@@ -32,9 +32,7 @@ interface LessonLink {
 }
 
 interface Props {
-  /** Lesson title */
   title: string;
-  /** Lesson description */
   description?: string;
   /** Section name (Foundation, Intermediate, Advanced) */
   section: string;
@@ -44,9 +42,7 @@ interface Props {
   vocabulary?: VocabularyItem[];
   /** Grammar topics tags (optional) */
   grammarTopics?: string[];
-  /** Previous lesson link */
   previousLesson?: LessonLink | null;
-  /** Next lesson link */
   nextLesson?: LessonLink | null;
 }
 
@@ -73,26 +69,19 @@ const tocHeadings: Heading[] = [
 ---
 
 <BaseLayout title={title} description={description}>
-  <!-- Right Sidebar: Table of Contents -->
   <Fragment slot="right-sidebar">
     <RightSidebar headings={tocHeadings} />
   </Fragment>
-
   <!-- Mobile ToC -->
   <Fragment slot="mobile-toc">
     <RightSidebar headings={tocHeadings} title="On this page" />
   </Fragment>
-
-  <!-- Main Content -->
   <article class="prose lesson-content">
-    <!-- Lesson Header -->
     <header class="lesson-header">
       <span class="lesson-section-badge">{section}</span>
       <h1 id="lesson-title">{title}</h1>
       {description && <p class="lesson-description">{description}</p>}
     </header>
-
-    <!-- Vocabulary Cards -->
     {
       hasVocabulary && (
         <section class="vocab-section" aria-labelledby="vocabulary">
@@ -115,8 +104,6 @@ const tocHeadings: Heading[] = [
     <div class="lesson-body">
       <slot />
     </div>
-
-    <!-- Grammar Topics Tags -->
     {
       hasGrammarTopics && (
         <footer class="lesson-footer">
@@ -131,8 +118,6 @@ const tocHeadings: Heading[] = [
         </footer>
       )
     }
-
-    <!-- Lesson Navigation -->
     <nav class="lesson-nav" aria-label="Lesson navigation">
       <div class="lesson-nav-prev">
         {
@@ -192,13 +177,11 @@ const tocHeadings: Heading[] = [
 </BaseLayout>
 
 <style>
-  /* Lesson Header */
   .lesson-header {
     margin-bottom: 2rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--color-border);
   }
-
   .lesson-section-badge {
     display: inline-flex;
     align-items: center;
@@ -210,58 +193,45 @@ const tocHeadings: Heading[] = [
     border-radius: 9999px;
     margin-bottom: 0.75rem;
   }
-
   .lesson-header h1 {
     margin: 0 0 0.5rem 0;
   }
-
   .lesson-description {
     font-size: var(--text-h4);
     color: var(--color-text-secondary);
     margin: 0;
     line-height: 1.5;
   }
-
-  /* Vocabulary Section */
   .vocab-section {
     margin: 2rem 0;
   }
-
   .vocab-section h2 {
     margin-top: 0;
   }
-
-  /* Lesson Body */
   .lesson-body {
     margin: 2rem 0;
   }
-
-  /* Lesson Footer (Grammar Topics) */
   .lesson-footer {
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
   }
-
   .grammar-topics {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
   }
-
   .grammar-topics-label {
     font-size: var(--text-small);
     font-weight: 600;
     color: var(--color-text-secondary);
   }
-
   .grammar-topics-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
-
   .grammar-tag {
     display: inline-flex;
     padding: 0.25rem 0.625rem;
@@ -272,8 +242,6 @@ const tocHeadings: Heading[] = [
     border: 1px solid var(--color-border);
     border-radius: 0.375rem;
   }
-
-  /* Lesson Navigation */
   .lesson-nav {
     display: flex;
     justify-content: space-between;
@@ -283,7 +251,6 @@ const tocHeadings: Heading[] = [
     padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
   }
-
   .lesson-nav-prev,
   .lesson-nav-next {
     flex: 1;

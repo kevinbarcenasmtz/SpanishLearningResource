@@ -17,7 +17,6 @@ interface Props {
 
 const { sectionId, title, items, currentPath = '' } = Astro.props;
 
-// Check if any item in this section is active
 const hasActiveItem = items.some((item) => currentPath === item.href);
 ---
 
@@ -207,14 +206,5 @@ const hasActiveItem = items.some((item) => currentPath === item.href);
   :global(.dark .nav-item[data-focused='true']) {
     background-color: rgba(248, 113, 113, 0.2) !important;
     box-shadow: inset 0 0 0 2px #f87171 !important;
-  }
-</style>
-
-<!-- Test: Completely unscoped global styles to diagnose scoping issue -->
-<style is:global>
-  .nav-item:focus,
-  .nav-item[data-focused='true'] {
-    background-color: lime !important;
-    box-shadow: inset 0 0 0 3px red !important;
   }
 </style>

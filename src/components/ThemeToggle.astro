@@ -10,9 +10,7 @@
  */
 
 interface Props {
-  /** Show text label alongside icon */
   showLabel?: boolean;
-  /** Button variant: 'icon' for icon-only, 'button' for full width */
   variant?: 'icon' | 'button';
 }
 
@@ -76,13 +74,8 @@ const { showLabel = true, variant = 'button' } = Astro.props;
     const toggleButtons = document.querySelectorAll('.theme-toggle-btn');
     
     toggleButtons.forEach((toggleButton) => {
-      // Skip if already initialized
       if (initializedButtons.has(toggleButton)) return;
-      
-      // Mark as initialized
       initializedButtons.add(toggleButton);
-      
-      // Add click listener
       toggleButton.addEventListener('click', () => {
         const isDark = document.documentElement.classList.contains('dark');
 

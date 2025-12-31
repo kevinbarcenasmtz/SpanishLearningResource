@@ -9,7 +9,6 @@ import { STORAGE_KEYS } from './storage';
 let isInitialized = false;
 
 export function initResizable(): void {
-  // Prevent double initialization on same page
   if (isInitialized && document.getElementById('left-sidebar-container')) {
     return;
   }
@@ -17,23 +16,16 @@ export function initResizable(): void {
   const container = document.getElementById('left-sidebar-container') as HTMLElement;
   const handle = container?.querySelector('.resize-handle') as HTMLElement;
 
-  // The actual sidebar element in the grid is the parent <aside>
   const sidebar = document.getElementById('left-sidebar') as HTMLElement;
-
-  // Get the grid container
   const gridContainer = document.querySelector('.app-body') as HTMLElement;
-
   if (!container || !handle || !sidebar || !gridContainer) return;
-
   // IMPORTANT: Disable transitions during initialization to prevent flash
   sidebar.style.transition = 'none';
   gridContainer.style.transition = 'none';
-
   // Clear any existing inline grid styles on mobile/tablet to let CSS media queries work
   if (window.innerWidth < 1024) {
     gridContainer.style.gridTemplateColumns = '';
   }
-
   // Restore width from localStorage (only on desktop)
   const storedWidth = localStorage.getItem(STORAGE_KEYS.width);
   if (storedWidth && window.innerWidth >= 1024) {
@@ -52,7 +44,6 @@ export function initResizable(): void {
       updateGridColumns(gridContainer, width);
     }
   }
-
   // Re-enable transitions after a frame (allows initial render without animation)
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -73,7 +64,6 @@ export function initResizable(): void {
     startWidth = sidebar.offsetWidth;
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
-
     // Enable smooth resize during drag (only on grid, sidebar follows directly)
     gridContainer.style.transition = 'grid-template-columns 0.05s ease-out';
 
@@ -96,7 +86,6 @@ export function initResizable(): void {
 
     if (newWidth >= minWidth && newWidth <= maxWidth) {
       sidebar.style.width = `${newWidth}px`;
-      // Only update grid columns on desktop
       if (window.innerWidth >= 1024) {
         updateGridColumns(gridContainer, newWidth);
       }
@@ -108,11 +97,8 @@ export function initResizable(): void {
       isResizing = false;
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
-
       // Remove transition after resize
       gridContainer.style.transition = '';
-
-      // Save to localStorage
       localStorage.setItem(STORAGE_KEYS.width, sidebar.offsetWidth.toString());
     }
   });

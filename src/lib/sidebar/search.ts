@@ -4,25 +4,24 @@
  * Handles search filtering and text highlighting
  */
 
-export function initSearch(searchInputId: string = 'sidebar-search'): void {
+export function initSearch(searchInputId: string, containerSelector: string): void {
   const searchInput = document.getElementById(searchInputId) as HTMLInputElement;
-  const navItems = document.querySelectorAll('[data-nav-item]');
-  const sections = document.querySelectorAll('.nav-section');
-  const nav = document.querySelector('.sidebar-nav') as HTMLElement;
+  const container = document.querySelector(containerSelector) as HTMLElement;
+  if (!searchInput || !container) return;
+  // Scope all queries to this specific container
+  const navItems = container.querySelectorAll('[data-nav-item]');
+  const sections = container.querySelectorAll('.nav-section');
+  const nav = container.querySelector('.sidebar-nav') as HTMLElement;
 
-  if (!searchInput) return;
-
-  // Create empty state element
+  // Create scoped empty state (unique per container)
   const emptyState = document.createElement('div');
-  emptyState.id = 'search-empty-state';
-  emptyState.className = 'hidden text-center py-8 px-4 text-secondary';
+  emptyState.className = 'search-empty-state hidden text-center py-8 px-4 text-secondary';
   emptyState.innerHTML = '<p class="text-sm">No matching lessons</p>';
   nav?.appendChild(emptyState);
-
+  
   searchInput.addEventListener('input', (e) => {
     const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
 
-    // Remove previous highlights
     document.querySelectorAll('.search-highlight').forEach((el) => {
       const parent = el.parentNode;
       if (parent) {
@@ -32,7 +31,6 @@ export function initSearch(searchInputId: string = 'sidebar-search'): void {
     });
 
     if (!query) {
-      // Show all items and sections
       navItems.forEach((item) => item.classList.remove('hidden'));
       sections.forEach((section) => section.classList.remove('hidden'));
       emptyState.classList.add('hidden');
@@ -41,7 +39,6 @@ export function initSearch(searchInputId: string = 'sidebar-search'): void {
 
     let hasVisibleItems = false;
 
-    // Filter and highlight nav items
     navItems.forEach((item) => {
       const textContent = item.textContent?.toLowerCase() || '';
 
@@ -49,14 +46,12 @@ export function initSearch(searchInputId: string = 'sidebar-search'): void {
         item.classList.remove('hidden');
         hasVisibleItems = true;
 
-        // Highlight matching text
         highlightText(item as HTMLElement, query);
       } else {
         item.classList.add('hidden');
       }
     });
 
-    // Hide empty sections
     sections.forEach((section) => {
       const visibleItems = section.querySelectorAll('[data-nav-item]:not(.hidden)');
       if (visibleItems.length === 0) {
@@ -65,8 +60,6 @@ export function initSearch(searchInputId: string = 'sidebar-search'): void {
         section.classList.remove('hidden');
       }
     });
-
-    // Show/hide empty state
     if (hasVisibleItems) {
       emptyState.classList.add('hidden');
     } else {

@@ -6,7 +6,7 @@
  * This module only handles click interactions.
  */
 
-import { getCollapsedSections, addCollapsedSection, removeCollapsedSection } from './storage';
+import { addCollapsedSection, removeCollapsedSection } from './storage';
 
 export function initCollapsibleSections(): void {
   const sections = document.querySelectorAll('.nav-section');

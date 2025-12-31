@@ -17,9 +17,7 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
 
 <header class="app-header">
   <div class="header-container">
-    <!-- Left Side: Menu/Sidebar Toggle -->
     <div class="header-left">
-      <!-- Mobile Menu Toggle (hamburger) - visible < 640px -->
       <button
         type="button"
         id="mobile-menu-toggle"
@@ -36,7 +34,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
             d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
       </button>
-
       <!-- Sidebar Toggle (for tablet/desktop) - visible >= 640px -->
       <button
         type="button"
@@ -46,7 +43,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
         aria-expanded="true"
         aria-controls="left-sidebar"
       >
-        <!-- Sidebar open icon (collapse) -->
         <svg class="icon sidebar-icon-open" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
@@ -54,7 +50,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
             stroke-width="2"
             d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path>
         </svg>
-        <!-- Sidebar closed icon (expand) -->
         <svg class="icon sidebar-icon-closed" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"
@@ -65,10 +60,7 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
       </button>
     </div>
 
-    <!-- Center: Logo/Brand -->
     <a href="/" class="header-logo">
-      <!-- Icon badge -->
-      <span class="logo-badge">MX</span>
       <!-- Full title (tablet+) - Regular text in light mode, two-line style in dark mode -->
       <div class="logo-text-wrapper tablet-desktop-only">
         <span class="logo-text">{siteTitle}</span>
@@ -83,7 +75,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
 
     <!-- Right Side: ToC Toggle -->
     <div class="header-right">
-      <!-- ToC Toggle - visible < 1024px -->
       <button
         type="button"
         id="mobile-toc-toggle"
@@ -100,9 +91,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
             d="M4 6h16M4 10h16M4 14h10M4 18h7"></path>
         </svg>
       </button>
-
-      <!-- Spacer for desktop (keeps logo centered) -->
-      <div class="desktop-only header-spacer"></div>
     </div>
   </div>
 </header>
@@ -120,7 +108,7 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
   .header-right {
     display: flex;
     align-items: center;
-    min-width: 2.5rem; /* Ensures space even when empty */
+    min-width: 2.5rem;
   }
 
   .header-button {
@@ -148,7 +136,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
     width: 1.5rem;
     height: 1.5rem;
   }
-
   /* Logo */
   .header-logo {
     display: flex;
@@ -161,21 +148,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
   .header-logo:hover {
     text-decoration: none;
   }
-
-  .logo-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 0.5rem;
-    background-color: #c41e1e;
-    color: #f7b32b;
-    font-family: var(--font-display);
-    font-size: 1.125rem;
-    font-weight: 700;
-  }
-
   .logo-text-wrapper {
     display: flex;
     align-items: center;
@@ -211,12 +183,6 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
   :global(.dark) .logo-text-wrapper .two-line {
     display: block;
   }
-
-  .header-spacer {
-    width: 2.5rem;
-  }
-
-  /* Sidebar icon states */
   .sidebar-icon-closed {
     display: none;
   }
