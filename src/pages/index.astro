@@ -10,7 +10,7 @@ import RightSidebar from '../components/RightSidebar.astro';
 
 // Define headings for the ToC (must match IDs in content)
 const headings = [
-  { depth: 1, slug: 'welcome', text: 'Welcome to Mexican Spanish' },
+  { depth: 1, slug: 'welcome', text: 'A Course in Mexican Spanish' },
   { depth: 2, slug: 'getting-started', text: 'Getting Started' },
   { depth: 2, slug: 'features', text: 'Features' },
   { depth: 2, slug: 'how-to-navigate', text: 'How to Navigate' },
@@ -20,21 +20,25 @@ const headings = [
 <BaseLayout title="A Course in Mexican Spanish">
   <!-- Right Sidebar: Table of Contents -->
   <Fragment slot="right-sidebar">
-    <RightSidebar headings={headings} />
+    <RightSidebar headings={headings} title="Contents" />
   </Fragment>
 
   <!-- Mobile ToC -->
   <Fragment slot="mobile-toc">
-    <RightSidebar headings={headings} title="On this page" />
+    <RightSidebar headings={headings} title="Contents" />
   </Fragment>
 
   <!-- Main Content -->
   <article class="prose">
-    <h1 id="welcome">Welcome to Mexican Spanish</h1>
+    <h1 id="welcome">A Course in Mexican Spanish</h1>
     <p>
-      ¡Bienvenidos! This is a comprehensive Mexican Spanish learning resource designed specifically
-      for English speakers who already have foundational knowledge of Spanish through conversations
+      <u>A Course in Mexican Spanish</u> was first created in 2025 but ongoing lessons are being added throughout the time.
+      The aim of this resource is to be a comprehensive Mexican Spanish learning resource designed specifically
+      for English speakers who already have introductory knowledge of Spanish through conversations
       and exploratory use.
+    </p>
+    <p>
+      The course or at least the presentation of the content mirrors closely the structure and format of <u>A Course in Levantine Arabic</u> by Ernest McCarus, Hamdi Qalisheh, & Raji Rammuny
     </p>
 
     <h2 id="getting-started">Getting Started</h2>
