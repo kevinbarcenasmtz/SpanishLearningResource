@@ -2,5 +2,11 @@
   "name": "a-course-in-mexican-spanish",
   "compatibility_date": "2025-01-20",
   "compatibility_flags": ["nodejs_compat"],
-  "pages_build_output_dir": "./dist"
+  "pages_build_output_dir": "./dist",
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "4f1e14e516d7414f9262d2a61a3c306e"
+    }
+  ]
 }
