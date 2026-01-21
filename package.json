@@ -3,8 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "wrangler types && astro dev",
+    "build": "wrangler types && astro check && astro build",
     "preview": "astro build && wrangler pages dev ./dist",
     "deploy": "astro build && wrangler pages deploy ./dist",
     "astro": "astro",

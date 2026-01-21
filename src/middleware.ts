@@ -1,6 +1,6 @@
 /**
  * Authentication Middleware
- * 
+ *
  * Protects all routes except /login with a simple password check.
  * Uses session cookie to persist authentication.
  */
@@ -30,7 +30,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Wrap in try-catch to handle cases where request might not be fully available
   try {
-    const { cookies, redirect, url } = context;
+    const { cookies, redirect, url, locals } = context;
     const pathname = url.pathname;
 
     // Allow public routes
@@ -45,7 +45,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     // Check for valid session cookie
     const sessionToken = cookies.get(COOKIE_NAME);
-    const accessCode = import.meta.env.ACCESS_CODE;
+
+    // Access environment variable from Cloudflare runtime
+    // Note: This is available at runtime, not build time
+    const accessCode = locals.runtime?.env?.ACCESS_CODE;
 
     if (!accessCode) {
       console.error('ACCESS_CODE environment variable not set!');
@@ -59,6 +62,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     // No valid session - redirect to login
     return redirect('/login');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // During prerendering, some context properties might not be available
     // In that case, just allow the request through
