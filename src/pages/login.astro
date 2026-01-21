@@ -1,0 +1,311 @@
+---
+/**
+ * Login Page
+ * 
+ * Simple password gate - checks code against environment variable.
+ * On success, sets session cookie and redirects to home.
+ */
+
+ const COOKIE_NAME = 'auth_session';
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
+
+let errorMessage = '';
+
+// Handle form submission
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const enteredCode = formData.get('code')?.toString() || '';
+    const accessCode = import.meta.env.ACCESS_CODE;
+
+    if (!accessCode) {
+      errorMessage = 'Server configuration error - contact administrator';
+    } else if (enteredCode === accessCode) {
+      // Set session cookie
+      Astro.cookies.set(COOKIE_NAME, accessCode, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'lax',
+        maxAge: COOKIE_MAX_AGE,
+        path: '/',
+      });
+
+      // Redirect to home page
+      return Astro.redirect('/');
+    } else {
+      errorMessage = 'Invalid access code';
+    }
+  } catch (error) {
+    errorMessage = 'An error occurred - please try again';
+    console.error('Login error:', error);
+  }
+}
+
+// Check if already logged in
+const sessionToken = Astro.cookies.get(COOKIE_NAME);
+const accessCode = import.meta.env.ACCESS_CODE;
+
+if (sessionToken?.value === accessCode) {
+  return Astro.redirect('/');
+}
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login | A Course in Mexican Spanish</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin />
+    <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" crossorigin />
+
+    <!-- Dark Mode: Prevent flash -->
+    <script is:inline>
+      (function () {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+
+    <style>
+      @import '../styles/global.css';
+
+      .login-container {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+
+      .login-card {
+        width: 100%;
+        max-width: 400px;
+        padding: 2rem;
+        background-color: var(--color-bg-secondary);
+        border: 1px solid var(--color-border);
+        border-radius: 0.75rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      .login-header {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .login-title {
+        font-family: var(--font-display);
+        font-size: var(--text-h2);
+        margin: 0 0 0.5rem 0;
+        color: var(--color-text-primary);
+      }
+
+      .login-subtitle {
+        font-size: var(--text-small);
+        color: var(--color-text-secondary);
+        margin: 0;
+      }
+
+      .login-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-label {
+        font-weight: 600;
+        color: var(--color-text-primary);
+        font-size: var(--text-small);
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        color: var(--color-text-primary);
+        background-color: var(--color-bg-primary);
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        transition: border-color var(--transition-fast);
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--color-accent);
+        box-shadow: 0 0 0 3px var(--color-accent-bg);
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        color: white;
+        background-color: var(--color-accent);
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color var(--transition-fast);
+      }
+
+      .submit-button:hover {
+        background-color: var(--color-accent-hover);
+      }
+
+      .submit-button:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+      }
+
+      .error-message {
+        padding: 0.75rem;
+        background-color: #fef2f2;
+        border: 1px solid #fecaca;
+        border-radius: 0.5rem;
+        color: #991b1b;
+        font-size: var(--text-small);
+        text-align: center;
+      }
+
+      .dark .error-message {
+        background-color: #4a1c1c;
+        border-color: #dc2626;
+        color: #fca5a5;
+      }
+
+      .theme-toggle-wrapper {
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid var(--color-border);
+        display: flex;
+        justify-content: center;
+      }
+
+      .theme-toggle-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: transparent;
+        border: 1px solid var(--color-border);
+        border-radius: 0.5rem;
+        color: var(--color-text-secondary);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+      }
+
+      .theme-toggle-btn:hover {
+        background-color: var(--color-bg-tertiary);
+        color: var(--color-text-primary);
+      }
+
+      .theme-icon {
+        width: 1rem;
+        height: 1rem;
+      }
+
+      .theme-icon-sun {
+        display: none;
+      }
+
+      .theme-icon-moon {
+        display: block;
+      }
+
+      .dark .theme-icon-sun {
+        display: block;
+      }
+
+      .dark .theme-icon-moon {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body class="bg-primary text-primary">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <h1 class="login-title">Welcome</h1>
+          <p class="login-subtitle">Enter your access code to continue</p>
+        </div>
+
+        {errorMessage && <div class="error-message">{errorMessage}</div>}
+
+        <form method="POST" class="login-form">
+          <div class="form-group">
+            <label for="code" class="form-label">Access Code</label>
+            <input
+              type="password"
+              id="code"
+              name="code"
+              class="form-input"
+              placeholder="Enter code"
+              required
+              autofocus
+            />
+          </div>
+
+          <button type="submit" class="submit-button"> Continue </button>
+        </form>
+
+        <div class="theme-toggle-wrapper">
+          <button type="button" class="theme-toggle-btn" id="theme-toggle">
+            <svg
+              class="theme-icon theme-icon-sun"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+              ></path>
+            </svg>
+            <svg
+              class="theme-icon theme-icon-moon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              ></path>
+            </svg>
+            <span>Toggle theme</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const toggle = document.getElementById('theme-toggle');
+      const html = document.documentElement;
+
+      toggle?.addEventListener('click', () => {
+        const isDark = html.classList.contains('dark');
+        if (isDark) {
+          html.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        } else {
+          html.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      });
+    </script>
+  </body>
+</html>

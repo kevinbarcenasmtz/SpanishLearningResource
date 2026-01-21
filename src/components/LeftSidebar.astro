@@ -142,6 +142,14 @@ const lessonsBySection = allLessons
       <div class="nav-item w-full justify-start p-0">
         <ThemeToggle showLabel={true} variant="button" />
       </div>
+      <a
+        href="/logout"
+        class:list={['nav-item', { active: currentPath === '/logout' }]}
+        data-nav-item
+        tabindex={currentPath === '/logout' ? 0 : -1}
+      >
+        Logout
+      </a>
     </nav>
   </div>
   <div

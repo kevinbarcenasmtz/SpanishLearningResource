@@ -1,0 +1,19 @@
+---
+/**
+ * Logout Page
+ *
+ * Clears the authentication cookie and redirects to login.
+ */
+
+const COOKIE_NAME = 'auth_session';
+
+// Clear the authentication cookie
+Astro.cookies.delete(COOKIE_NAME, {
+  path: '/',
+  secure: import.meta.env.PROD,
+  sameSite: 'lax',
+});
+
+// Redirect to login page
+return Astro.redirect('/login');
+---
