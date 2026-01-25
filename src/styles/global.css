@@ -111,9 +111,9 @@
                ========================================================================== */
 
 .dark {
-  --color-bg-primary: #292524; /* Dark stone gray */
-  --color-bg-secondary: #1c1917; /* Darker gray */
-  --color-bg-tertiary: #44403c; /* Lighter gray for hovers */
+  --color-bg-primary: #272525; /* Dark stone gray */
+  --color-bg-secondary: #272525; /* Darker gray */
+  --color-bg-tertiary: #272525; /* Lighter gray for hovers */
 
   --color-text-primary: #fafaf9; /* Off-white text */
   --color-text-secondary: #a8a29e; /* Muted stone */

@@ -16,7 +16,6 @@ function isPublicAssetPath(pathname: string) {
   // Astro build assets + common static assets
   if (pathname.startsWith('/_astro/')) return true;
   if (pathname.startsWith('/fonts/')) return true;
-  if (pathname === '/favicon.svg') return true;
   // Any file extension (e.g. .css, .js, .png) in /public or output
   return /\.[a-zA-Z0-9]+$/.test(pathname);
 }

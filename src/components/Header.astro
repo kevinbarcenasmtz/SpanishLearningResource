@@ -8,7 +8,7 @@
  * - Desktop (>1024px): sidebar toggle (left) + logo (center)
  */
 
- interface Props {
+interface Props {
   siteTitle?: string;
 }
 
@@ -62,9 +62,21 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
 
     <a href="/" class="header-logo">
       <!-- Full title (tablet+) -->
-      <span class="logo-text tablet-desktop-only">{siteTitle}</span>
+      <img
+        src="/images/rotulo-header-desktop-light.svg"
+        alt="A Course in Mexican Spanish"
+        class="logo-img tablet-desktop-only"
+        width="600"
+        height="80"
+      />
       <!-- Short title (mobile) -->
-      <span class="logo-text-short mobile-only">Mexican Spanish</span>
+      <img
+        src="/images/rotulo-header-mobile-light.svg"
+        alt="Mexican Spanish"
+        class="logo-img-short mobile-only"
+        width="300"
+        height="50"
+      />
     </a>
 
     <!-- Right Side: ToC Toggle -->
@@ -90,6 +102,27 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
 </header>
 
 <style>
+  /* Logo images - set sizes and swap content for dark mode */
+  .logo-img {
+    height: 66px;
+    width: auto;
+    content: url('/images/rotulo-header-desktop-light.svg');
+  }
+
+  .logo-img-short {
+    height: 40px;
+    width: auto;
+    content: url('/images/rotulo-header-mobile-light.svg');
+  }
+
+  /* Dark mode - swap to dark versions */
+  :global(.dark) .logo-img {
+    content: url('/images/rotulo-header-desktop-dark.svg');
+  }
+
+  :global(.dark) .logo-img-short {
+    content: url('/images/rotulo-header-mobile-dark.svg');
+  }
   .header-container {
     display: flex;
     align-items: center;
@@ -157,7 +190,7 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
   }
 
   .logo-text {
-    font-size: 3.0rem;
+    font-size: 3rem;
   }
 
   .logo-text-short {

@@ -58,7 +58,6 @@ if (sessionToken?.value === accessCode) {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Login | A Course in Mexican Spanish</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin />
     <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" crossorigin />
 
@@ -234,14 +233,14 @@ if (sessionToken?.value === accessCode) {
   </head>
   <body>
     <div class="login-card">
-      <h1>¡Bienvenido!</h1>
+      <h1>Welcome!</h1>
       <p class="subtitle">A Course in Mexican Spanish</p>
 
       {errorMessage && <div class="error">{errorMessage}</div>}
 
       <form method="POST">
         <div>
-          <label for="code">Access Code</label>
+          <label for="code">Secret Password</label>
           <input
             type="password"
             id="code"
