@@ -19,7 +19,11 @@ const { showLabel = true, variant = 'button' } = Astro.props;
 
 <button
   type="button"
-  class:list={['theme-toggle-btn', 'theme-toggle', { 'theme-toggle-icon-only': variant === 'icon' }]}
+  class:list={[
+    'theme-toggle-btn',
+    'theme-toggle',
+    { 'theme-toggle-icon-only': variant === 'icon' },
+  ]}
   aria-label="Toggle dark mode"
 >
   <!-- Sun icon (shown in dark mode) -->
@@ -72,7 +76,7 @@ const { showLabel = true, variant = 'button' } = Astro.props;
     // Find all theme toggle buttons (there may be multiple: desktop sidebar + mobile drawer)
     // Use .theme-toggle-btn to be specific (not .theme-toggle which is also used for drawer close buttons)
     const toggleButtons = document.querySelectorAll('.theme-toggle-btn');
-    
+
     toggleButtons.forEach((toggleButton) => {
       if (initializedButtons.has(toggleButton)) return;
       initializedButtons.add(toggleButton);

@@ -18,7 +18,7 @@ export function initSearch(searchInputId: string, containerSelector: string): vo
   emptyState.className = 'search-empty-state hidden text-center py-8 px-4 text-secondary';
   emptyState.innerHTML = '<p class="text-sm">No matching lessons</p>';
   nav?.appendChild(emptyState);
-  
+
   searchInput.addEventListener('input', (e) => {
     const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
 

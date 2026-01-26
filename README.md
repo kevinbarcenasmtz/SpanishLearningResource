@@ -9,6 +9,7 @@ This site uses simple password-based authentication to protect content. All rout
 ### Local Development Setup
 
 1. Copy the example environment file:
+
    ```sh
    cp .dev.vars.example .dev.vars
    ```
@@ -31,11 +32,13 @@ npx wrangler kv namespace create SESSION --preview false
 ```
 
 This will output something like:
+
 ```
 Created namespace with id "abc123def456..."
 ```
 
 Then, go to your Cloudflare Pages dashboard:
+
 1. Navigate to your project → **Settings** → **Functions**
 2. Scroll to **KV namespace bindings**
 3. Add a binding:
@@ -43,14 +46,15 @@ Then, go to your Cloudflare Pages dashboard:
    - **KV namespace**: Select the namespace you just created
 
 Alternatively, if you're deploying via Wrangler CLI, add this to `wrangler.jsonc`:
+
 ```jsonc
 {
   "kv_namespaces": [
     {
       "binding": "SESSION",
-      "id": "your-namespace-id-here"
-    }
-  ]
+      "id": "your-namespace-id-here",
+    },
+  ],
 }
 ```
 

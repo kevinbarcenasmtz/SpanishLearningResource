@@ -214,7 +214,7 @@ const lessonsBySection = allLessons
       // Disable both chevron and content transitions
       const chevron = section.querySelector('.nav-section-chevron');
       const content = section.querySelector('.nav-section-content');
-      
+
       if (chevron) chevron.style.transition = 'none';
       if (content) content.style.transition = 'none';
     });
@@ -235,7 +235,7 @@ const lessonsBySection = allLessons
         allSections.forEach((section) => {
           const chevron = section.querySelector('.nav-section-chevron');
           const content = section.querySelector('.nav-section-content');
-          
+
           if (chevron) chevron.style.transition = '';
           if (content) content.style.transition = '';
         });

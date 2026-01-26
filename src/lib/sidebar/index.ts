@@ -13,6 +13,6 @@ export function initSidebar(): void {
   initCollapsibleSections();
   initKeyboardNavigation('sidebar-search-mobile');
   initSearch('sidebar-search-desktop', '#left-sidebar');
-  initSearch('sidebar-search-mobile', '#left-drawer');  
+  initSearch('sidebar-search-mobile', '#left-drawer');
   initResizable();
 }

@@ -61,7 +61,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     // No valid session - redirect to login
     return redirect('/login');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     // During prerendering, some context properties might not be available
     // In that case, just allow the request through

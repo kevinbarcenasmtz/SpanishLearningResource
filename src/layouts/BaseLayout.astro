@@ -49,14 +49,14 @@ const currentPath = Astro.url.pathname;
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/images/rotulo-header-mobile-light.svg" />
-    
-    <!-- Font preloads (removed crossorigin for same-origin fonts) -->
-    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" />
-    <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" />
-    <link rel="preload" href="/fonts/atkinson-bold.ttf" as="font" type="font/ttf" />
+
+    <!-- Font preloads (crossorigin="anonymous" required for CORS-enabled CDNs) -->
+    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
+    <link rel="preload" href="/fonts/atkinson-bold.ttf" as="font" type="font/ttf" crossorigin="anonymous" />
 
     <!-- Dark Mode & Sidebar State: Prevent flash -->
     <script is:inline>
@@ -105,8 +105,7 @@ const currentPath = Astro.url.pathname;
           class="app-sidebar-right custom-scrollbar"
           aria-label="Table of contents"
         >
-          <slot name="right-sidebar">
-          </slot>
+          <slot name="right-sidebar" />
         </aside>
       </div>
     </div>
@@ -168,8 +167,7 @@ const currentPath = Astro.url.pathname;
         </button>
       </div>
       <div class="drawer-body">
-        <slot name="mobile-toc">
-        </slot>
+        <slot name="mobile-toc" />
       </div>
     </div>
 
@@ -338,7 +336,7 @@ const currentPath = Astro.url.pathname;
 
         function setSidebarState(isVisible: boolean): void {
           const gridContainer = document.getElementById('app-body');
-          
+
           document.documentElement.classList.remove(
             'sidebar-visible-init',
             'sidebar-collapsed-init',
@@ -350,7 +348,7 @@ const currentPath = Astro.url.pathname;
           } else if (isDesktop()) {
             body.classList.toggle('sidebar-collapsed', !isVisible);
             body.classList.remove('sidebar-visible');
-            
+
             // Clear inline styles when collapsing so CSS class can work
             if (!isVisible && gridContainer) {
               gridContainer.style.gridTemplateColumns = '';
