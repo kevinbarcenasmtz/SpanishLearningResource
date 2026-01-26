@@ -49,8 +49,14 @@ const currentPath = Astro.url.pathname;
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
-    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" crossorigin />
-    <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" crossorigin />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/images/rotulo-header-mobile-light.svg" />
+    
+    <!-- Font preloads (removed crossorigin for same-origin fonts) -->
+    <link rel="preload" href="/fonts/chilanga-regular.ttf" as="font" type="font/ttf" />
+    <link rel="preload" href="/fonts/atkinson-regular.ttf" as="font" type="font/ttf" />
+    <link rel="preload" href="/fonts/atkinson-bold.ttf" as="font" type="font/ttf" />
 
     <!-- Dark Mode & Sidebar State: Prevent flash -->
     <script is:inline>

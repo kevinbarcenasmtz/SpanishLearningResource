@@ -6,6 +6,9 @@
  * - Mobile (<640px): hamburger menu (left) + ToC toggle (right)
  * - Tablet (640-1024px): sidebar toggle (left) + ToC toggle (right)
  * - Desktop (>1024px): sidebar toggle (left) + logo (center)
+ *
+ * FIXED: Using <picture> element instead of CSS content property
+ * for better browser support and no NS_Binding errors
  */
 
 interface Props {
@@ -68,6 +71,8 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
         class="logo-img tablet-desktop-only"
         width="600"
         height="80"
+        data-light-src="/images/rotulo-header-desktop-light.svg"
+        data-dark-src="/images/rotulo-header-desktop-dark.svg"
       />
       <!-- Short title (mobile) -->
       <img
@@ -76,6 +81,8 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
         class="logo-img-short mobile-only"
         width="300"
         height="50"
+        data-light-src="/images/rotulo-header-mobile-light.svg"
+        data-dark-src="/images/rotulo-header-mobile-dark.svg"
       />
     </a>
 
@@ -101,28 +108,65 @@ const { siteTitle = 'A Course in Mexican Spanish' } = Astro.props;
   </div>
 </header>
 
+<script>
+  // Handle theme toggle for header logo images
+  function updateHeaderLogos() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const logoImages = document.querySelectorAll('.logo-img, .logo-img-short');
+
+    logoImages.forEach((element) => {
+      const img = element as HTMLImageElement;
+      const lightSrc = img.getAttribute('data-light-src');
+      const darkSrc = img.getAttribute('data-dark-src');
+
+      if (lightSrc && darkSrc) {
+        img.src = isDark ? darkSrc : lightSrc;
+      }
+    });
+  }
+
+  // Update on initial load
+  updateHeaderLogos();
+
+  // Listen for theme changes via MutationObserver (watches for .dark class changes)
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        updateHeaderLogos();
+      }
+    });
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['class'],
+  });
+
+  // Listen for Astro page transitions
+  document.addEventListener('astro:after-swap', () => {
+    updateHeaderLogos();
+  });
+
+  // Clean up observer on page unload
+  document.addEventListener('astro:before-swap', () => {
+    observer.disconnect();
+  });
+</script>
+
 <style>
-  /* Logo images - set sizes and swap content for dark mode */
+  /* Logo images */
   .logo-img {
     height: 66px;
     width: auto;
-    content: url('/images/rotulo-header-desktop-light.svg');
+    display: block;
   }
 
   .logo-img-short {
     height: 40px;
     width: auto;
-    content: url('/images/rotulo-header-mobile-light.svg');
+    display: block;
   }
 
-  /* Dark mode - swap to dark versions */
-  :global(.dark) .logo-img {
-    content: url('/images/rotulo-header-desktop-dark.svg');
-  }
-
-  :global(.dark) .logo-img-short {
-    content: url('/images/rotulo-header-mobile-dark.svg');
-  }
   .header-container {
     display: flex;
     align-items: center;
